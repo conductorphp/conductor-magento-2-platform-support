@@ -1,0 +1,12 @@
+# Whitelist for allowing users through the Magento maintenance page
+{%- if maintenance_whitelist %}
+    {%- for name, ips in maintenance_whitelist %}
+
+
+# {{ name }}
+        {%- for ip in ips %}
+
+{{ ip }}
+        {%-  endfor %}
+    {%- endfor %}
+{%- endif %}
