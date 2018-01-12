@@ -25,7 +25,10 @@ class ConfigProvider
         ];
     }
 
-    private function getAppSetup()
+    /**
+     * @return array
+     */
+    private function getAppSetup(): array
     {
         return array_merge(
             [
