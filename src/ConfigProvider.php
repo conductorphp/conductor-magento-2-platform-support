@@ -17,9 +17,9 @@ class ConfigProvider
     public function __invoke()
     {
         return [
-            'app_setup' => [
+            'application_orchestration' => [
                 'platforms' => [
-                    'magento2' => $this->getAppSetup(),
+                    'magento2' => $this->getPlatformConfig(),
                 ],
             ],
         ];
@@ -28,13 +28,13 @@ class ConfigProvider
     /**
      * @return array
      */
-    private function getAppSetup(): array
+    private function getPlatformConfig(): array
     {
         return array_merge(
             [
-                'file_root' => dirname(__DIR__) . '/files',
+                'source_file_path' => dirname(__DIR__) . '/files',
             ],
-            Yaml::parse(file_get_contents(__DIR__ . '/../config/app_setup.yaml'))
+            Yaml::parse(file_get_contents(__DIR__ . '/../config/platform.yaml'))
         );
     }
 
