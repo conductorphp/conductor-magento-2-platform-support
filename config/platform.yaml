@@ -1,5 +1,4 @@
 ---
-database_snapshot_format: sql
 asset_groups:
   core:
     - /captcha/base
