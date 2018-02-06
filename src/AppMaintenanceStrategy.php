@@ -10,6 +10,21 @@ use Psr\Log\LoggerInterface;
 class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwareInterface
 {
     /**
+     * @var ApplicationConfig
+     */
+    private $applicationConfig;
+
+    /**
+     * AppMaintenanceStrategy constructor.
+     *
+     * @param ApplicationConfig $applicationConfig
+     */
+    public function __construct(ApplicationConfig $applicationConfig)
+    {
+        $this->applicationConfig = $applicationConfig;
+    }
+
+    /**
      * Sets a logger instance on the object.
      *
      * @param LoggerInterface $logger
@@ -22,32 +37,29 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
     }
 
     /**
-     * @param ApplicationConfig $application
-     * @param string|null       $branch
+     * @param string|null $branch
      */
-    public function enable(ApplicationConfig $application, string $branch = null): void
+    public function enable(string $branch = null): void
     {
         // TODO: Implement enable() method.
         throw new \LogicException(__METHOD__ . ' not yet implemented.');
     }
 
     /**
-     * @param ApplicationConfig $application
-     * @param string|null       $branch
+     * @param string|null $branch
      */
-    public function disable(ApplicationConfig $application, string $branch = null): void
+    public function disable(string $branch = null): void
     {
         // TODO: Implement disable() method.
         throw new \LogicException(__METHOD__ . ' not yet implemented.');
     }
 
     /**
-     * @param ApplicationConfig $application
-     * @param string|null       $branch
+     * @param string|null $branch
      *
      * @return bool
      */
-    public function isEnabled(ApplicationConfig $application, string $branch = null): bool
+    public function isEnabled(string $branch = null): bool
     {
         // TODO: Implement isEnabled() method.
         throw new \LogicException(__METHOD__ . ' not yet implemented.');
