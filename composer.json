@@ -10,6 +10,9 @@
             "email": "kmadera@robofirm.com"
         }
     ],
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": "^7.1",
         "robofirm/devops-tool-application-orchestration": "^0.1.0",
