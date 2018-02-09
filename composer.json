@@ -15,8 +15,7 @@
     },
     "require": {
         "php": "^7.1",
-        "robofirm/devops-tool-application-orchestration": "^0.1.0",
-        "symfony/yaml": "~2.3|~3.0"
+        "robofirm/devops-tool-application-orchestration": "^0.1.0"
     },
     "autoload": {
         "psr-4": {

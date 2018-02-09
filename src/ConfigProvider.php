@@ -43,7 +43,7 @@ class ConfigProvider
             [
                 'source_file_path' => dirname(__DIR__) . '/files',
             ],
-            Yaml::parse(file_get_contents(__DIR__ . '/../config/platform.yaml'))
+            include __DIR__ . '/../config/platform.php'
         );
     }
 
