@@ -15,7 +15,7 @@
     },
     "require": {
         "php": "^7.1",
-        "conductor/application-orchestration": "^0.1.0"
+        "conductor/application-orchestration": "*"
     },
     "autoload": {
         "psr-4": {
