@@ -1,6 +1,6 @@
 <?php
 
-namespace DevopsToolMagento2PlatformSupport\Exception;
+namespace ConductorMagento2PlatformSupport\Exception;
 
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {

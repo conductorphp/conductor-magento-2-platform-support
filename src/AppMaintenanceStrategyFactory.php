@@ -1,6 +1,6 @@
 <?php
 
-namespace DevopsToolMagento2PlatformSupport;
+namespace ConductorMagento2PlatformSupport;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
@@ -26,7 +26,7 @@ class AppMaintenanceStrategyFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $applicationConfig = $container->get('DevopsToolAppOrchestration\ApplicationConfig');
+        $applicationConfig = $container->get('ConductorAppOrchestration\ApplicationConfig');
         return new AppMaintenanceStrategy($applicationConfig);
     }
 

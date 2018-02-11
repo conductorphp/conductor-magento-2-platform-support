@@ -1,9 +1,9 @@
 <?php
 
-namespace DevopsToolMagento2PlatformSupport;
+namespace ConductorMagento2PlatformSupport;
 
-use DevopsToolAppOrchestration\ApplicationConfig;
-use DevopsToolAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface;
+use ConductorAppOrchestration\ApplicationConfig;
+use ConductorAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 

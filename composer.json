@@ -1,9 +1,9 @@
 {
-    "name": "robofirm/devops-tool-magento-2-platform-support",
-    "description": "Robofirm DevOps Tool: Magento 2 Application Support",
+    "name": "conductor/magento-2-platform-support",
+    "description": "Conductor: Magento 2 Application Support",
     "type": "library",
-    "homepage": "https://bitbucket.org/robofirm/devops-tool-magento-2-platform-support",
-    "license": "MIT",
+    "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
+    "license": "Apache 2.0",
     "authors": [
         {
             "name": "Kirk Madera",
@@ -15,16 +15,16 @@
     },
     "require": {
         "php": "^7.1",
-        "robofirm/devops-tool-application-orchestration": "^0.1.0"
+        "conductor/application-orchestration": "^0.1.0"
     },
     "autoload": {
         "psr-4": {
-            "DevopsToolMagento2PlatformSupport\\": "src/"
+            "ConductorMagento2PlatformSupport\\": "src/"
         }
     },
     "extra": {
         "zf": {
-            "config-provider": "DevopsToolMagento2PlatformSupport\\ConfigProvider"
+            "config-provider": "ConductorMagento2PlatformSupport\\ConfigProvider"
         }
     }
 }

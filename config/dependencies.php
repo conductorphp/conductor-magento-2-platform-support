@@ -1,9 +1,9 @@
 <?php
 
-namespace DevopsToolMagento2PlatformSupport;
+namespace ConductorMagento2PlatformSupport;
 
 return [
     'invokables' => [
-        \DevopsToolAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface::class => AppMaintenanceStrategyFactory::class,
+        \ConductorAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface::class => AppMaintenanceStrategyFactory::class,
     ]
 ];
