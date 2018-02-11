@@ -3,7 +3,7 @@
 namespace ConductorMagento2PlatformSupport;
 
 return [
-    'invokables' => [
+    'factories' => [
         \ConductorAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface::class => AppMaintenanceStrategyFactory::class,
     ]
 ];
