@@ -1,6 +1,6 @@
 {
     "name": "conductor/magento-2-platform-support",
-    "description": "Conductor: Magento 2 Application Support",
+    "description": "Conductor: Magento 2 Platform Support",
     "type": "library",
     "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
     "license": "Apache 2.0",
@@ -40,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ConductorCoreTest\\": "test/"
+            "ConductorMagento2PlatformSupportTest\\": "test/"
         }
     },
     "extra": {
