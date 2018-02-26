@@ -2,6 +2,8 @@
 
 namespace ConductorMagento2PlatformSupport;
 
+use ConductorAppOrchestration\ApplicationConfig;
+use ConductorCore\Shell\ShellAdapterManager;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
@@ -26,8 +28,9 @@ class AppMaintenanceStrategyFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $applicationConfig = $container->get('ConductorAppOrchestration\ApplicationConfig');
-        return new AppMaintenanceStrategy($applicationConfig);
+        $applicationConfig = $container->get(ApplicationConfig::class);
+        $shellAdapterManager = $container->get(ShellAdapterManager::class);
+        return new AppMaintenanceStrategy($applicationConfig, $shellAdapterManager);
     }
 
 }
