@@ -2,7 +2,7 @@
 
 namespace ConductorMagento2PlatformSupport;
 
-use ConductorAppOrchestration\ApplicationConfig;
+use ConductorAppOrchestration\Config\ApplicationConfig;
 use ConductorCore\Shell\ShellAdapterManager;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
