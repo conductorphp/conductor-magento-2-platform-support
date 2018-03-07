@@ -7,8 +7,8 @@ return [
         'database_host'   => 'localhost',
         'database_port'   => 3306
     ],
-    'asset'         => [
-        'groups' => [
+    'snapshot' => [
+        'asset_groups' => [
             'core' => [
                 '/captcha',
                 '/catalog/category/cache',
@@ -21,10 +21,9 @@ return [
                 '/catalog/placeholder/cache',
                 '/tmp'
             ],
+            'common_modules' => [],
         ],
-    ],
-    'database'      => [
-        'table_groups' => [
+        'database_table_groups' => [
             'core'                                  => [
                 'adminnotification_inbox',
                 'admin_user',
