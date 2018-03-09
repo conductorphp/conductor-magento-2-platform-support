@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'application_orchestration' => [
+        'application' => [
+            'build' => [
+                'plans' => [
+                    'default' => [
+                        'steps'    => [
+                            'clone-repo' => \ConductorAppOrchestration\BuildCommand\CloneRepoCommand::class,
+                            'composer-install' => 'composer install --optimize-autoloader',
+                            'enable-production-mode' => 'bin/magento deploy:mode:set production -s',
+                            [
+                                'compile-di' => 'bin/magento setup:di:compile',
+                                'deploy-static-content' => 'bin/magento setup:static-content:deploy',
+                            ],
+                        ],
+                        'excludes' => [
+                            '/app/etc/env.php',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+];

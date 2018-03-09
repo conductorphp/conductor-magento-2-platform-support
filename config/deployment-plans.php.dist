@@ -1,0 +1,16 @@
+<?php
+
+return [
+    'application_orchestration' => [
+        'application' => [
+            'deployment' => [
+                'plans' => [
+                    // @todo Provide default deployment plans
+                    'default' => [
+
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
