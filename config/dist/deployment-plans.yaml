@@ -1,0 +1,80 @@
+---
+application_orchestration:
+  application:
+    deploy:
+      plans:
+        default:
+          supports: [code-build]
+          preflight_steps:
+            ensure-build-exists:
+              conditions: [code-build]
+              command: conductor filesystem:ls $buildPath/$buildId.tgz > /dev/null
+            ensure-asset-snapshot-exists:
+              conditions: [assets]
+              command: conductor filesystem:ls $snapshotPath/$snapshotName/assets > /dev/null
+            ensure-database-snapshot-exists:
+              conditions: [databases]
+              command: conductor filesystem:ls $snapshotPath/$snapshotName/databases > /dev/null
+
+          clean_steps:
+            stash-code-changes:
+              conditions: [code-repo]
+              class: ConductorAppOrchestration\Deploy\Command\StashCodeChangesCommand
+            drop-databases:
+              conditions: [databases]
+              class: ConductorAppOrchestration\Deploy\Command\DropDatabasesCommand
+            delete-assets:
+              conditions: [assets]
+              class: ConductorAppOrchestration\Deploy\Command\DeleteAssetsCommand
+
+          steps:
+            prepare-file-layout:
+              conditions: [assets, code, refresh, skeleton]
+              class: ConductorAppOrchestration\Deploy\Command\PrepareFileLayoutCommand
+            deploy-code:
+              conditions: [code]
+              class: ConductorAppOrchestration\Deploy\Command\DeployCodeCommand
+            deploy-skeleton:
+              conditions: [assets, code, refresh, skeleton]
+              class: ConductorAppOrchestration\Deploy\Command\DeploySkeletonCommand
+            deploy-databases:
+              conditions: [databases]
+              class: ConductorAppOrchestration\Deploy\Command\DeployDatabasesCommand
+              options:
+                databases:
+                  magento2demo:
+                    post_import_scripts:
+                      - apply-test-settings.sql
+                      - environment-settings.sql
+            set-permissions:
+              run_in_code_root: true
+              conditions: [assets, code, refresh]
+              depends: [code]
+              command: |
+                ([[ -d pub/static ]] || mkdir -p pub/static) && \
+                chmod g+w . var pub/static pub/media app/etc && \
+                chmod u+x bin/magento && \
+                chmod o-rwx app/etc/env.php
+            set-developer-mode:
+              run_in_code_root: true
+              conditions: [code, refresh]
+              depends: [code]
+              command: bin/magento deploy:mode:set developer -s
+            run-installers:
+              run_in_code_root: true
+              conditions: [code, databases, refresh]
+              depends: [code, databases]
+              command: bin/magento setup:upgrade
+            re-enable-all-caches:
+              run_in_code_root: true
+              conditions: [code, databases, refresh]
+              depends: [code, databases]
+              command: bin/magento cache:enable
+              comment: >
+                The run-installers step seems to disable caches sometimes. Enabling them all again. Need to determine
+                root cause of caches getting disabled
+            refresh-cache:
+              run_in_code_root: true
+              conditions: [assets, code, databases, refresh]
+              depends: [code, databases]
+              command: bin/magento cache:flush

@@ -3,7 +3,8 @@
 namespace ConductorMagento2PlatformSupport;
 
 return [
-    'factories' => [
-        \ConductorAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface::class => AppMaintenanceStrategyFactory::class,
+    'aliases' => [
+        \ConductorAppOrchestration\Deploy\CodeDeploymentStateInterface::class => Deploy\CodeDeploymentState::class,
+        \ConductorAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface::class => AppMaintenanceStrategy::class,
     ],
 ];

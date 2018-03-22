@@ -1,0 +1,29 @@
+---
+application_orchestration:
+  application:
+    snapshot:
+      plans:
+        default:
+          clean_steps:
+            delete-existing-snapshot: ConductorAppOrchestration\Snapshot\Command\DeleteExistingSnapshotCommand
+          steps:
+            enable-maintenance: ConductorAppOrchestration\Snapshot\Command\EnableMaintenanceCommand
+            sync-assets:
+              class: ConductorAppOrchestration\Snapshot\Command\SyncAssetsCommand
+              options:
+                assets:
+                  pub/media:
+                    location: shared
+                    ensure : directory
+                    excludes:
+                      - '@core'
+                      - '@common_modules'
+            upload-databases:
+              class: ConductorAppOrchestration\Snapshot\Command\UploadDatabasesCommand
+              options:
+                databases:
+                  magento2demo:
+                    excludes:
+                      - '@core'
+                      - '@common_modules'
+            disable-maintenance: ConductorAppOrchestration\Snapshot\Command\DisableMaintenanceCommand
