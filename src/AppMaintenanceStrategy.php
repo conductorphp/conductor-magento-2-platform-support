@@ -3,7 +3,7 @@
 namespace ConductorMagento2PlatformSupport;
 
 use ConductorAppOrchestration\Config\ApplicationConfig;
-use ConductorAppOrchestration\MaintenanceStrategy\MaintenanceStrategyInterface;
+use ConductorAppOrchestration\Maintenance\MaintenanceStrategyInterface;
 use ConductorCore\Shell\ShellAdapterManager;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
