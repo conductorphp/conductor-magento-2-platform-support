@@ -30,13 +30,11 @@ class CodeDeploymentState implements CodeDeploymentStateInterface
     }
 
     /**
-     * @param string|null $branch
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function codeDeployed(string $branch = null): bool
+    public function codeDeployed(): bool
     {
-        $codeRoot = $this->applicationConfig->getCodePath($branch);
+        $codeRoot = $this->applicationConfig->getCodePath();
         $command = '[[ -f ' . escapeshellcmd("$codeRoot/bin/magento") . ' ]] || exit 1';
         try {
             $this->shellAdapter->runShellCommand($command);

@@ -43,35 +43,33 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
     }
 
     /**
-     * @param string|null       $branch
+     * @inheritdoc
      */
-    public function enable(string $branch = null): void
+    public function enable(): void
     {
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
         foreach ($shellAdapterNames as $shellAdapterName) {
             $shellAdapter = $this->shellAdapterManager->getAdapter($shellAdapterName);
-            $shellAdapter->runShellCommand('bin/magento maintenance:enable', $this->applicationConfig->getCodePath($branch));
+            $shellAdapter->runShellCommand('bin/magento maintenance:enable', $this->applicationConfig->getCodePath());
         }
     }
 
     /**
-     * @param string|null       $branch
+     * @inheritdoc
      */
-    public function disable(string $branch = null): void
+    public function disable(): void
     {
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
         foreach ($shellAdapterNames as $shellAdapterName) {
             $shellAdapter = $this->shellAdapterManager->getAdapter($shellAdapterName);
-            $shellAdapter->runShellCommand('bin/magento maintenance:disable', $this->applicationConfig->getCodePath($branch));
+            $shellAdapter->runShellCommand('bin/magento maintenance:disable', $this->applicationConfig->getCodePath());
         }
     }
 
     /**
-     * @param string|null       $branch
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function isEnabled(string $branch = null): bool
+    public function isEnabled(): bool
     {
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
 
@@ -79,7 +77,7 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
         // @todo Run these checks in parallel with amphp
         foreach ($shellAdapterNames as $shellAdapterName) {
             $shellAdapter = $this->shellAdapterManager->getAdapter($shellAdapterName);
-            $output = $shellAdapter->runShellCommand('bin/magento maintenance:status', $this->applicationConfig->getCodePath($branch));
+            $output = $shellAdapter->runShellCommand('bin/magento maintenance:status', $this->applicationConfig->getCodePath());
 
             if (false !== strpos($output, 'is active')) {
                 $serversInMaintenance[$shellAdapterName] = true;
