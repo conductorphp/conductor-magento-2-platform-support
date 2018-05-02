@@ -5,7 +5,8 @@ return [
         'admin_frontname' => 'admin',
         'install_date'    => 'Fri, 08 Jun 2012 19 =>59 =>58 +0000',
         'database_host'   => 'localhost',
-        'database_port'   => 3306
+        'database_port'   => 3306,
+        'amqp_max_messages' => 10000,
     ],
     'snapshot' => [
         'asset_groups' => [
