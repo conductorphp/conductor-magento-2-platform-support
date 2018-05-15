@@ -1,3 +1,4 @@
+{% autoescape false %}
 # Whitelist for allowing users through the Magento maintenance page
 {%- if maintenance_whitelist %}
     {%- for name, ips in maintenance_whitelist %}
@@ -10,3 +11,4 @@
         {%-  endfor %}
     {%- endfor %}
 {%- endif %}
+{% endautoescape %}
