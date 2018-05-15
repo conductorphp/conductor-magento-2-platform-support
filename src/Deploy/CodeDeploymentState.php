@@ -34,7 +34,7 @@ class CodeDeploymentState implements CodeDeploymentStateInterface
      */
     public function codeDeployed(): bool
     {
-        $codeRoot = $this->applicationConfig->getCodePath();
+        $codeRoot = $this->applicationConfig->getCurrentPath();
         $command = '[[ -f ' . escapeshellcmd("$codeRoot/bin/magento") . ' ]] || exit 1';
         try {
             $this->shellAdapter->runShellCommand($command);

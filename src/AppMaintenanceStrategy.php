@@ -45,39 +45,42 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
     /**
      * @inheritdoc
      */
-    public function enable(): void
+    public function enable(string $buildId = null): void
     {
+        $currentWorkingDir = $buildId ? $this->applicationConfig->getCodePath($buildId) : $this->applicationConfig->getCurrentPath();
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
         foreach ($shellAdapterNames as $shellAdapterName) {
             $shellAdapter = $this->shellAdapterManager->getAdapter($shellAdapterName);
-            $shellAdapter->runShellCommand('bin/magento maintenance:enable', $this->applicationConfig->getCodePath());
+            $shellAdapter->runShellCommand('bin/magento maintenance:enable', $currentWorkingDir);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function disable(): void
+    public function disable(string $buildId = null): void
     {
+        $currentWorkingDir = $buildId ? $this->applicationConfig->getCodePath($buildId) : $this->applicationConfig->getCurrentPath();
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
         foreach ($shellAdapterNames as $shellAdapterName) {
             $shellAdapter = $this->shellAdapterManager->getAdapter($shellAdapterName);
-            $shellAdapter->runShellCommand('bin/magento maintenance:disable', $this->applicationConfig->getCodePath());
+            $shellAdapter->runShellCommand('bin/magento maintenance:disable', $currentWorkingDir);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function isEnabled(): bool
+    public function isEnabled(string $buildId = null): bool
     {
+        $currentWorkingDir = $buildId ? $this->applicationConfig->getCodePath($buildId) : $this->applicationConfig->getCurrentPath();
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
 
         $serversInMaintenance = [];
         // @todo Run these checks in parallel with amphp
         foreach ($shellAdapterNames as $shellAdapterName) {
             $shellAdapter = $this->shellAdapterManager->getAdapter($shellAdapterName);
-            $output = $shellAdapter->runShellCommand('bin/magento maintenance:status', $this->applicationConfig->getCodePath());
+            $output = $shellAdapter->runShellCommand('bin/magento maintenance:status', $currentWorkingDir);
 
             if (false !== strpos($output, 'is active')) {
                 $serversInMaintenance[$shellAdapterName] = true;
