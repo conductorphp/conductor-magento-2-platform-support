@@ -284,9 +284,6 @@ return [
                 'aw_rma_entity',
                 'aw_rma_entity_comments'
             ],
-            'magento1_core'                         => [
-                '@core'
-            ],
             'aheadworks/automatic-related-products' => [
                 'aw_arep_aggregation'
             ],
