@@ -7,7 +7,8 @@ application_orchestration:
           clean_steps:
             delete-existing-snapshot: ConductorAppOrchestration\Snapshot\Command\DeleteExistingSnapshotCommand
           steps:
-            enable-maintenance: ConductorAppOrchestration\Snapshot\Command\EnableMaintenanceCommand
+            # Uncomment maintenance enable/disable if you need snapshots to be performed under maintenance mode
+            #enable-maintenance: ConductorAppOrchestration\Snapshot\Command\EnableMaintenanceCommand
             sync-assets:
               class: ConductorAppOrchestration\Snapshot\Command\SyncAssetsCommand
               options:
@@ -26,4 +27,4 @@ application_orchestration:
                     excludes:
                       - '@core'
                       - '@common_modules'
-            disable-maintenance: ConductorAppOrchestration\Snapshot\Command\DisableMaintenanceCommand
+            #disable-maintenance: ConductorAppOrchestration\Snapshot\Command\DisableMaintenanceCommand

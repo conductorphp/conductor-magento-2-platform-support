@@ -2,31 +2,27 @@
 application_orchestration:
   application:
     build:
+      default_plan: production
       plans:
-        default:
-          steps:
-            clone-repo: ConductorAppOrchestration\Build\Command\CloneRepoCommand
-            composer-install: composer install --optimize-autoloader
-            package-build:
-              class: ConductorAppOrchestration\Build\Command\PackageBuildCommand
-              options:
-                excludes:
-                  /app/etc/env.php
-            save-build: ConductorAppOrchestration\Build\Command\SaveBuildCommand
-
         production:
           steps:
             clone-repo: ConductorAppOrchestration\Build\Command\CloneRepoCommand
+            add-build-notes: "commit=$(git show | head -1 | awk '{print $2}'); echo \"Build ID: $buildId\nCommit: $commit\" > build.txt"
             composer-install: composer install --optimize-autoloader
-            compile-di: bin/magento setup:di:compile
+            compile-di: rm -rf generated/code && bin/magento setup:di:compile
+            # Add any other frontend build steps here. Snowdog frontools shown below for example
+            #snowdog-yarn-install: cd vendor/snowdog/frontools && yarn install 2> /dev/null || true
+            #snowdog-gulp-styles: cd vendor/snowdog/frontools && gulp styles
             deploy-static-content: bin/magento setup:static-content:deploy -f
-            dereference-pub-static:
-              command: cd pub && cp -rL static static2 && rm -rf static && mv static2 static
-              comment: This step resolves symlinks Magento 2 builds out into actual files. This
-                . is necessary because these symlinks can break when deployed to other environments.
             package-build:
               class: ConductorAppOrchestration\Build\Command\PackageBuildCommand
               options:
                 excludes:
-                  /app/etc/env.php
+                  - /app/etc/env.php
+                  - /dev
+                  - /phpserver
+                  - /pub/.user.ini
+                  - /pub/media
+                  - /update
+                  - /var
             save-build: ConductorAppOrchestration\Build\Command\SaveBuildCommand
