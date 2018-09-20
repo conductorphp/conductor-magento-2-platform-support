@@ -1,6 +1,9 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.2
+- Added ability to disable redis session locking
+
 # 0.9.1
 - Updated conductor/application-orchestration require to ~0.9.3
 
