@@ -3,7 +3,7 @@
     "description": "Conductor: Magento 2 Platform Support",
     "type": "library",
     "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Kirk Madera",

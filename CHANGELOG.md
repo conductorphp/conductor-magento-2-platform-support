@@ -1,6 +1,9 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.3
+- Fixed license per https://spdx.org/licenses/
+
 # 0.9.2
 - Added ability to disable redis session locking
 
