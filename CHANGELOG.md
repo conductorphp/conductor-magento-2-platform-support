@@ -1,6 +1,10 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.4
+- Added document_root_is_pub setting to app/etc/env.php per 
+  https://github.com/magento/magento2/pull/9094 and defaulted to true
+
 # 0.9.3
 - Fixed license per https://spdx.org/licenses/
 
