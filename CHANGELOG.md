@@ -1,6 +1,12 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.6
+- Added ability to set x-frame-options header in app/etc/env.php
+
+# 0.9.5
+- Added consideration for Magento Commerce Order Management
+
 # 0.9.4
 - Added document_root_is_pub setting to app/etc/env.php per 
   https://github.com/magento/magento2/pull/9094 and defaulted to true
