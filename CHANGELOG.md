@@ -1,6 +1,9 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.8
+- Fixed default MAGE_MODE value. Set to "production"
+
 # 0.9.7
 - updated env.php.twig max_concurrency to 20
 
