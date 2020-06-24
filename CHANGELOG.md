@@ -1,6 +1,15 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.8
+- Fixed default MAGE_MODE value. Set to "production"
+
+# 0.9.7
+- updated env.php.twig max_concurrency to 20
+
+# 0.9.6
+- Added ability to set x-frame-options header in app/etc/env.php
+
 # 0.9.5
 - Added consideration for Magento Commerce Order Management
 
