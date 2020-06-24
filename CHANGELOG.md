@@ -1,6 +1,9 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.9
+- Added ability to set Magento store configuration via app/etc/env.php
+
 # 0.9.8
 - Fixed default MAGE_MODE value. Set to "production"
 
