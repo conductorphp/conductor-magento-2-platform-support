@@ -195,7 +195,7 @@ application_orchestration:
               class: ConductorAppOrchestration\Deploy\Command\MakeBuildCurrentCommand
             reset-opcache:
               conditions: [code]
-              command: curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar && php71 cachetool.phar opcache:reset
+              command: curl -sOL https://gordalina.github.io/cachetool/downloads/cachetool.phar && php cachetool.phar opcache:reset
             run-installers:
               run_in_code_root: true
               conditions: [code, refresh]
