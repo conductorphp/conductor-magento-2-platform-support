@@ -1,6 +1,12 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
+# 0.9.10 (unreleased)
+- Updated opcache command in dist file to https, run php instead of php71, and include -L curl flag
+
+# 0.9.9
+- Added ability to set Magento store configuration via app/etc/env.php
+
 # 0.9.8
 - Fixed default MAGE_MODE value. Set to "production"
 
