@@ -2,11 +2,26 @@
 
 return [
     'template_vars' => [
-        'admin_frontname' => 'admin',
-        'install_date'    => 'Fri, 08 Jun 2012 19:59:58 +0000',
-        'database_host'   => 'localhost',
-        'database_port'   => 3306,
-        'amqp_max_messages' => 10000,
+        'cache_types' => [
+            'config' => 1,
+            'layout' => 1,
+            'block_html' => 1,
+            'collections' => 1,
+            'reflection' => 1,
+            'db_ddl' => 1,
+            'compiled_config' => 1,
+            'eav' => 1,
+            'customer_notification' => 1,
+            'config_integration' => 1,
+            'config_integration_api' => 1,
+            'full_page' => 1,
+            'target_rule' => 1,
+            'config_webservice' => 1,
+            'translate' => 1,
+            'google_product' => 1,
+            'vertex' => 1,
+        ],
+        'database_ssl_verify_cert' => false,
     ],
     'snapshot' => [
         'asset_groups' => [

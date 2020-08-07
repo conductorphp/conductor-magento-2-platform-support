@@ -1,8 +1,14 @@
 Conductor: Magento 2 Platform Support Changelog
 ==============================================
 
-# 0.9.10 (unreleased)
+# 0.9.10
 - Updated opcache command in dist file to https, run php instead of php71, and include -L curl flag
+- Moved cache_type configuration to yaml config
+- Moved defaults from platform.php into twig template where possible
+- Added consideration for \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT option for db config
+- Added id_prefix for redis caches
+- Removed Magento Commerce Order Management (MCOM) support
+- Added AMQP ssl configuration
 
 # 0.9.9
 - Added ability to set Magento store configuration via app/etc/env.php
