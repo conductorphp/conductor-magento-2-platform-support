@@ -1,38 +1,26 @@
 {
     "name": "conductor/magento-2-platform-support",
-    "description": "Conductor: Magento 2 Platform Support",
+    "description": "Conductor Magento 2 Platform Support",
     "type": "library",
     "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "Kirk Madera",
-            "email": "kirk.madera@rmgmedia.com"
+            "email": "kirk.madera@rmgmedia.com",
+            "role": "Architect"
         }
     ],
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "dev",
     "require": {
         "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0",
-        "conductor/application-orchestration": "^1.0.0",
-        "laminas/laminas-servicemanager": "^3.3",
-        "laminas/laminas-dependency-plugin": "^2.1"
+        "conductor/application-orchestration": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7.23 || ^6.4.3",
         "laminas/laminas-coding-standard": "~1.0.0"
-    },
-    "repositories": {
-        "conductor-application-orchestration": {
-            "type": "vcs",
-            "url": "git@github.com:conductorphp/conductor-application-orchestration.git"
-        },
-        "conductor-core": {
-            "type": "vcs",
-            "url": "git@github.com:conductorphp/conductor-core.git"
-        }
     },
     "autoload": {
         "psr-4": {
