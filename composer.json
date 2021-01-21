@@ -16,7 +16,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0",
-        "conductor/application-orchestration": "~0.9.3",
+        "conductor/application-orchestration": "^1.0.0",
         "laminas/laminas-servicemanager": "^3.3",
         "laminas/laminas-dependency-plugin": "^2.1"
     },
