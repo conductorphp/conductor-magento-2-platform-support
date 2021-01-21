@@ -101,12 +101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/conductorphp/conductor-application-orchestration.git",
-                "reference": "a1a5460b7a26ffacea1a19f595b6205479b9db65"
+                "reference": "d20430edd4d8640ac772e28c8e96b184c31fc9a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/conductorphp/conductor-application-orchestration/zipball/a1a5460b7a26ffacea1a19f595b6205479b9db65",
-                "reference": "a1a5460b7a26ffacea1a19f595b6205479b9db65",
+                "url": "https://api.github.com/repos/conductorphp/conductor-application-orchestration/zipball/d20430edd4d8640ac772e28c8e96b184c31fc9a5",
+                "reference": "d20430edd4d8640ac772e28c8e96b184c31fc9a5",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "issues": "https://github.com/conductorphp/conductor-application-orchestration/issues",
                 "source": "https://github.com/conductorphp/conductor-application-orchestration/tree/1.0.0"
             },
-            "time": "2021-01-21T22:40:55+00:00"
+            "time": "2021-01-21T22:57:31+00:00"
         },
         {
             "name": "conductor/core",
@@ -159,12 +159,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/conductorphp/conductor-core.git",
-                "reference": "3af7d2780eb3fc8ca40c1a1b61c0e00af9dd80bc"
+                "reference": "409160907323d44fa2248277c7f9d3c0c4e8e5d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/conductorphp/conductor-core/zipball/3af7d2780eb3fc8ca40c1a1b61c0e00af9dd80bc",
-                "reference": "3af7d2780eb3fc8ca40c1a1b61c0e00af9dd80bc",
+                "url": "https://api.github.com/repos/conductorphp/conductor-core/zipball/409160907323d44fa2248277c7f9d3c0c4e8e5d8",
+                "reference": "409160907323d44fa2248277c7f9d3c0c4e8e5d8",
                 "shasum": ""
             },
             "require": {
@@ -221,13 +221,13 @@
                     "role": "Architect"
                 }
             ],
-            "description": "Conductor: Core",
+            "description": "Conductor Core",
             "homepage": "https://github.com/conductorphp/conductor-core",
             "support": {
                 "issues": "https://github.com/conductorphp/conductor-core/issues",
                 "source": "https://github.com/conductorphp/conductor-core/tree/1.0.0"
             },
-            "time": "2021-01-21T21:52:14+00:00"
+            "time": "2021-01-21T22:55:33+00:00"
         },
         {
             "name": "container-interop/container-interop",
