@@ -16,7 +16,7 @@
     },
     "require": {
         "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0",
-        "conductor/application-orchestration": "*"
+        "conductor/application-orchestration": "^1.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7.23 || ^6.4.3",
