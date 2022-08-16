@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - Unreleased
 
-### Added
-
-- Added PHP 8.1 support
-
 ### Removed
 
 - Removed support for PHP 8.0 and below
+
+## [1.1.0] - Unreleased
+
+### Added
+
+- Added support for PHP 8.0 and 8.1
 
 ## [1.0.1] - Unreleased
 
