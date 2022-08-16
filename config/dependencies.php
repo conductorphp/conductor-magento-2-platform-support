@@ -2,9 +2,12 @@
 
 namespace ConductorMagento2PlatformSupport;
 
+use ConductorAppOrchestration\Deploy\CodeDeploymentStateInterface;
+use ConductorAppOrchestration\Maintenance\MaintenanceStrategyInterface;
+
 return [
     'aliases' => [
-        \ConductorAppOrchestration\Deploy\CodeDeploymentStateInterface::class => Deploy\CodeDeploymentState::class,
-        \ConductorAppOrchestration\Maintenance\MaintenanceStrategyInterface::class => AppMaintenanceStrategy::class,
+        CodeDeploymentStateInterface::class => Deploy\CodeDeploymentState::class,
+        MaintenanceStrategyInterface::class => AppMaintenanceStrategy::class,
     ],
 ];

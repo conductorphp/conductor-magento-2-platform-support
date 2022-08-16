@@ -35,7 +35,7 @@ return [
                 '/js',
                 '/js_secure',
                 '/catalog/placeholder/cache',
-                '/tmp'
+                '/tmp',
             ],
             'common_modules' => [],
         ],
@@ -46,7 +46,7 @@ return [
             // @todo Add tmp tables?
             // @todo Add group to exclude indexes, but do not include in core (It's generally faster to export/import
             //       indexes than it is to reindex them
-            'core'                                  => [
+            'core' => [
                 '*_cl',
                 '*_debug',
                 '*_log',
@@ -267,46 +267,46 @@ return [
                 'UNCLAIMED_PROPERTY',
                 'wishlist',
                 'wishlist_item',
-                'wishlist_item_option'
+                'wishlist_item_option',
             ],
-            'robofirm/aptos'                        => [
+            'robofirm/aptos' => [
                 'aptos_po',
                 'aptos_po_item',
-                'aptos_salesaudit_creditmemo'
+                'aptos_salesaudit_creditmemo',
             ],
-            'onepica/avatax'                        => [
+            'onepica/avatax' => [
                 'op_avatax_log',
-                'op_avatax_queue'
+                'op_avatax_queue',
             ],
-            'onepica/image-cdn'                     => [
-                'op_imagecdn_cache'
+            'onepica/image-cdn' => [
+                'op_imagecdn_cache',
             ],
-            'eltrino/print-order'                   => [
-                'eltrino_guests_orders'
+            'eltrino/print-order' => [
+                'eltrino_guests_orders',
             ],
-            'robofirm/swatch'                       => [
-                'swatch_flat_index'
+            'robofirm/swatch' => [
+                'swatch_flat_index',
             ],
-            'cybersource/payment-gateway'           => [
+            'cybersource/payment-gateway' => [
                 'cybersource_api_debug',
                 'cybersource_dm_conversion',
-                'cybersource_soap_debug'
+                'cybersource_soap_debug',
             ],
-            'iwd/all'                               => [
-                'iwd_notification'
+            'iwd/all' => [
+                'iwd_notification',
             ],
-            'aheadworks/rma'                        => [
+            'aheadworks/rma' => [
                 'aw_rma_entity',
-                'aw_rma_entity_comments'
+                'aw_rma_entity_comments',
             ],
             'aheadworks/automatic-related-products' => [
-                'aw_arep_aggregation'
+                'aw_arep_aggregation',
             ],
-            'robofirm/process-manager'              => [
+            'robofirm/process-manager' => [
                 'processmanager_dataflow',
-                'processmanager_process_log'
+                'processmanager_process_log',
             ],
-            'bronto/email'                          => [
+            'bronto/email' => [
                 'bronto_customer_queue',
                 'bronto_email_log',
                 'bronto_emailcapture_queue',
@@ -314,17 +314,17 @@ return [
                 'bronto_order_queue',
                 'bronto_reminder_delivery_log',
                 'bronto_reminder_rule_log',
-                'bronto_reviews_log'
+                'bronto_reviews_log',
             ],
-            'algolia/algoliasearch-client-php'      => [
-                'algoliasearch_queue'
+            'algolia/algoliasearch-client-php' => [
+                'algoliasearch_queue',
             ],
-            'amasty/feed'                           => [
+            'amasty/feed' => [
                 'am_feed_field_300_backup',
                 'am_feed_profile_300_backup',
-                'am_feed_template_300_backup'
+                'am_feed_template_300_backup',
             ],
-            'common_modules'                        => [
+            'common_modules' => [
                 '@aheadworks/automatic-related-products',
                 '@aheadworks/rma',
                 '@algolia/algoliasearch-client-php',
@@ -349,9 +349,9 @@ return [
                 '@unirgy/dropship',
                 '@unirgy/rma',
                 '@webshopapps/logger',
-                '@wordpress'
+                '@wordpress',
             ],
-            'dotdigitalgroup/email'                 => [
+            'dotdigitalgroup/email' => [
                 'email_automation',
                 'email_campaign',
                 'email_contact',
@@ -359,12 +359,12 @@ return [
                 'email_order',
                 'email_quote',
                 'email_review',
-                'email_wishlist'
+                'email_wishlist',
             ],
-            'ebizmarts/abandoned-cart'              => [
-                'ebizmarts_abandonedcart_popup'
+            'ebizmarts/abandoned-cart' => [
+                'ebizmarts_abandonedcart_popup',
             ],
-            'ess/m2epro'                            => [
+            'ess/m2epro' => [
                 'm2epro_amazon_item',
                 'm2epro_amazon_listing',
                 'm2epro_amazon_listing_other',
@@ -406,22 +406,22 @@ return [
                 'm2epro_product_change',
                 'm2epro_stop_queue',
                 'm2epro_synchronization_log',
-                'm2epro_system_log'
+                'm2epro_system_log',
             ],
-            'ebizmarts/auto-responder'              => [
+            'ebizmarts/auto-responder' => [
                 'ebizmarts_autoresponder_backtostock',
                 'ebizmarts_autoresponder_review',
                 'ebizmarts_autoresponder_unsubscribe',
-                'ebizmarts_autoresponder_visited'
+                'ebizmarts_autoresponder_visited',
             ],
-            'unirgy/rma'                            => [
+            'unirgy/rma' => [
                 'urma_rma',
                 'urma_rma_comment',
                 'urma_rma_grid',
                 'urma_rma_item',
-                'urma_rma_track'
+                'urma_rma_track',
             ],
-            'tbt/rewards'                           => [
+            'tbt/rewards' => [
                 'rewardsref_referral',
                 'rewardssocial_customer',
                 'rewardssocial_facebook_like',
@@ -436,16 +436,16 @@ return [
                 'rewards_importer',
                 'rewards_reports_indexer_order',
                 'rewards_transfer',
-                'rewards_transfer_reference'
+                'rewards_transfer_reference',
             ],
-            'wordpress'                             => [
+            'wordpress' => [
                 'wp_commentmeta',
                 'wp_comments',
                 'wp_contact_form_7',
                 'wp_usermeta',
-                'wp_users'
+                'wp_users',
             ],
-            'unirgy/dropship'                       => [
+            'unirgy/dropship' => [
                 'udropship_batch',
                 'udropship_batch_dist',
                 'udropship_batch_invrow',
@@ -462,13 +462,13 @@ return [
                 'udropship_vendor_statement',
                 'udropship_vendor_statement_adjustment',
                 'udropship_vendor_statement_row',
-                'udshipclass_customer'
+                'udshipclass_customer',
             ],
-            'paradoxlabs/authorize-net-cim'         => [
+            'paradoxlabs/authorize-net-cim' => [
                 'authnetcim_card_exclude',
-                'paradoxlabs_stored_card'
+                'paradoxlabs_stored_card',
             ],
-            'ebizmarts/magemonkey'                  => [
+            'ebizmarts/magemonkey' => [
                 'magemonkey_api_debug',
                 'magemonkey_async_orders',
                 'magemonkey_async_subscribers',
@@ -478,13 +478,13 @@ return [
                 'magemonkey_last_order',
                 'magemonkey_mails_sent',
                 'mailchimp_errors',
-                'mailchimp_sync_batches'
+                'mailchimp_sync_batches',
             ],
-            'webshopapps/logger'                    => [
-                'wsalogger_log'
+            'webshopapps/logger' => [
+                'wsalogger_log',
             ],
-            'gomage/feed'                           => [
-                'gomage_feed_entity'
+            'gomage/feed' => [
+                'gomage_feed_entity',
             ],
         ],
     ],

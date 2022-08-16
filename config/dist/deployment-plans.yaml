@@ -9,48 +9,48 @@ application_orchestration:
         development:
           preflight_steps:
             ensure-build-exists:
-              conditions: [code-build]
+              conditions: [ code-build ]
               class: ConductorAppOrchestration\Deploy\Command\EnsureBuildExistsCommand
             ensure-asset-snapshot-exists:
-              conditions: [assets]
+              conditions: [ assets ]
               class: ConductorAppOrchestration\Deploy\Command\EnsureAssetSnapshotExistsCommand
             ensure-database-snapshot-exists:
-              conditions: [databases]
+              conditions: [ databases ]
               class: ConductorAppOrchestration\Deploy\Command\EnsureDatabaseSnapshotExistsCommand
 
           clean_steps:
             stash-code-changes:
-              conditions: [code-repo]
+              conditions: [ code-repo ]
               class: ConductorAppOrchestration\Deploy\Command\StashCodeChangesCommand
             drop-databases:
-              conditions: [databases]
+              conditions: [ databases ]
               class: ConductorAppOrchestration\Deploy\Command\DropDatabasesCommand
             delete-assets:
-              conditions: [assets]
+              conditions: [ assets ]
               class: ConductorAppOrchestration\Deploy\Command\DeleteAssetsCommand
 
           steps:
             prepare-file-layout:
-              conditions: [assets, code, refresh, skeleton]
+              conditions: [ assets, code, refresh, skeleton ]
               class: ConductorAppOrchestration\Deploy\Command\PrepareFileLayoutCommand
             enable-maintenance:
-              depends: [code, databases]
+              depends: [ code, databases ]
               class: ConductorAppOrchestration\Deploy\Command\EnableMaintenanceCommand
             deploy-code:
-              conditions: [code]
-              provides: [code]
+              conditions: [ code ]
+              provides: [ code ]
               class: ConductorAppOrchestration\Deploy\Command\DeployCodeCommand
             composer-install:
               run_in_code_root: true
-              conditions: [code-repo]
+              conditions: [ code-repo ]
               command: composer install --optimize-autoloader
             deploy-skeleton:
-              conditions: [assets, code, refresh, skeleton]
-              provides: [skeleton]
+              conditions: [ assets, code, refresh, skeleton ]
+              provides: [ skeleton ]
               class: ConductorAppOrchestration\Deploy\Command\DeploySkeletonCommand
             deploy-databases:
-              conditions: [databases]
-              provides: [databases]
+              conditions: [ databases ]
+              provides: [ databases ]
               class: ConductorAppOrchestration\Deploy\Command\DeployDatabasesCommand
               options:
                 databases:
@@ -59,8 +59,8 @@ application_orchestration:
                       - apply-test-settings.sql
                       - environment-settings.sql
             deploy-assets:
-              conditions: [assets]
-              provides: [assets]
+              conditions: [ assets ]
+              provides: [ assets ]
               class: ConductorAppOrchestration\Deploy\Command\DeployAssetsCommand
               options:
                 assets:
@@ -70,8 +70,8 @@ application_orchestration:
                       - "@common_modules"
             set-permissions:
               run_in_code_root: true
-              conditions: [assets, code, refresh]
-              depends: [code, skeleton]
+              conditions: [ assets, code, refresh ]
+              depends: [ code, skeleton ]
               command: |
                 ([[ -d pub/static ]] || mkdir -p pub/static) && \
                 chmod g+w . var pub/static pub/media app/etc && \
@@ -79,18 +79,18 @@ application_orchestration:
                 chmod o-rwx app/etc/env.php
             set-developer-mode:
               run_in_code_root: true
-              conditions: [code, refresh]
-              depends: [code]
+              conditions: [ code, refresh ]
+              depends: [ code ]
               command: bin/magento deploy:mode:set developer
             run-installers:
               run_in_code_root: true
-              conditions: [code, databases, refresh]
-              depends: [code, databases]
+              conditions: [ code, databases, refresh ]
+              depends: [ code, databases ]
               command: bin/magento setup:upgrade --keep-generated
             create-admin-user:
               run_in_code_root: true
-              conditions: [databases]
-              depends: [code, databases]
+              conditions: [ databases ]
+              depends: [ code, databases ]
               command: bin/magento admin:user:create --admin-user dev --admin-password password1 --admin-email dev@localhost.com --admin-firstname Dev --admin-lastname Admin
             # Add any additional frontend build commands here. Snowdog frontools shown for example
             #snowdog-yarn-install:
@@ -109,11 +109,11 @@ application_orchestration:
             #  command: bin/magento index:reindex catalogsearch_fulltext elasticsuite_categories_fulltext elasticsuite_thesaurus
             flush-cache:
               run_in_code_root: true
-              conditions: [assets, code, databases, refresh]
-              depends: [code, databases]
+              conditions: [ assets, code, databases, refresh ]
+              depends: [ code, databases ]
               command: bin/magento cache:flush
             disable-maintenance:
-              depends: [code, databases]
+              depends: [ code, databases ]
               class: ConductorAppOrchestration\Deploy\Command\DisableMaintenanceCommand
 
         # Deployments to environments running blue/green file strategy, code builds, and Magento running in
@@ -121,41 +121,41 @@ application_orchestration:
         production:
           preflight_steps:
             ensure-build-exists:
-              conditions: [code-build]
+              conditions: [ code-build ]
               class: ConductorAppOrchestration\Deploy\Command\EnsureBuildExistsCommand
             ensure-asset-snapshot-exists:
-              conditions: [assets]
+              conditions: [ assets ]
               class: ConductorAppOrchestration\Deploy\Command\EnsureAssetSnapshotExistsCommand
             ensure-database-snapshot-exists:
-              conditions: [databases]
+              conditions: [ databases ]
               class: ConductorAppOrchestration\Deploy\Command\EnsureDatabaseSnapshotExistsCommand
 
           clean_steps:
             remove-deployed-build:
-              conditions: [code-build]
+              conditions: [ code-build ]
               class: ConductorAppOrchestration\Deploy\Command\RemoveDeployedBuildCommand
             drop-databases:
-              conditions: [databases]
+              conditions: [ databases ]
               class: ConductorAppOrchestration\Deploy\Command\DropDatabasesCommand
             delete-assets:
-              conditions: [assets]
+              conditions: [ assets ]
               class: ConductorAppOrchestration\Deploy\Command\DeleteAssetsCommand
 
           steps:
             prepare-file-layout:
-              conditions: [code, refresh, skeleton]
+              conditions: [ code, refresh, skeleton ]
               class: ConductorAppOrchestration\Deploy\Command\PrepareFileLayoutCommand
             deploy-code:
-              conditions: [code]
-              provides: [code]
+              conditions: [ code ]
+              provides: [ code ]
               class: ConductorAppOrchestration\Deploy\Command\DeployCodeCommand
             deploy-skeleton:
-              conditions: [code, refresh, skeleton]
-              provides: [skeleton]
+              conditions: [ code, refresh, skeleton ]
+              provides: [ skeleton ]
               class: ConductorAppOrchestration\Deploy\Command\DeploySkeletonCommand
             deploy-databases:
-              conditions: [databases]
-              provides: [databases]
+              conditions: [ databases ]
+              provides: [ databases ]
               class: ConductorAppOrchestration\Deploy\Command\DeployDatabasesCommand
               options:
                 databases:
@@ -164,8 +164,8 @@ application_orchestration:
                       - apply-test-settings.sql
                       - environment-settings.sql
             deploy-assets:
-              conditions: [assets]
-              provides: [assets]
+              conditions: [ assets ]
+              provides: [ assets ]
               class: ConductorAppOrchestration\Deploy\Command\DeployAssetsCommand
               options:
                 assets:
@@ -175,8 +175,8 @@ application_orchestration:
                       - "@common_modules"
             set-permissions:
               run_in_code_root: true
-              conditions: [code, refresh]
-              depends: [code,skeleton]
+              conditions: [ code, refresh ]
+              depends: [ code,skeleton ]
               command: |
                 ([[ -d pub/static ]] || mkdir -p pub/static) && \
                 chmod g+w . var pub/static pub/media app/etc && \
@@ -184,30 +184,30 @@ application_orchestration:
                 chmod o-rwx app/etc/env.php
             set-production-mode:
               run_in_code_root: true
-              conditions: [code, refresh]
-              depends: [code]
+              conditions: [ code, refresh ]
+              depends: [ code ]
               command: bin/magento deploy:mode:set production -s
             enable-maintenance:
-              depends: [code, databases]
+              depends: [ code, databases ]
               class: ConductorAppOrchestration\Deploy\Command\EnableMaintenanceCommand
             make-build-current:
-              depends: [code, databases]
+              depends: [ code, databases ]
               class: ConductorAppOrchestration\Deploy\Command\MakeBuildCurrentCommand
             reset-opcache:
-              conditions: [code]
+              conditions: [ code ]
               command: curl -sOL https://gordalina.github.io/cachetool/downloads/cachetool.phar && php cachetool.phar opcache:reset
             run-installers:
               run_in_code_root: true
-              conditions: [code, refresh]
-              depends: [code, databases]
+              conditions: [ code, refresh ]
+              depends: [ code, databases ]
               command: bin/magento setup:upgrade --keep-generated
             flush-cache:
               run_in_code_root: true
-              conditions: [code, refresh]
-              depends: [code, databases]
+              conditions: [ code, refresh ]
+              depends: [ code, databases ]
               command: bin/magento cache:flush
             # @todo Add class that will either disable maintenance or initiate a rollback based on a confirmation question
             # i.e. Ask "Disable maintenance mode? [Y/n]" followed by "Roll back to build 1234?" if "n" selected
             disable-maintenance:
-              depends: [code, databases]
+              depends: [ code, databases ]
               class: ConductorAppOrchestration\Deploy\Command\DisableMaintenanceCommand

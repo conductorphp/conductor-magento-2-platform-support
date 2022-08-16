@@ -15,7 +15,7 @@ application_orchestration:
                 assets:
                   pub/media:
                     location: shared
-                    ensure : directory
+                    ensure: directory
                     excludes:
                       - '@core'
                       - '@common_modules'
