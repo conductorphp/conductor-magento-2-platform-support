@@ -12,6 +12,7 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
 {
     private ApplicationConfig $applicationConfig;
     private ShellAdapterManager $shellAdapterManager;
+    private LoggerInterface $logger;
 
     public function __construct(ApplicationConfig $applicationConfig, ShellAdapterManager $shellAdapterManager)
     {
