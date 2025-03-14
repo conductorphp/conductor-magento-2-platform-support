@@ -243,7 +243,6 @@ return [
                 'sales_refunded_aggregated_order',
                 'sales_shipping_aggregated',
                 'sales_shipping_aggregated_order',
-                'salesrule_coupon',
                 'salesrule_coupon_usage',
                 'salesrule_customer',
                 'sequence_creditmemo_*',
