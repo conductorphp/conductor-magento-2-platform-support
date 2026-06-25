@@ -2,19 +2,15 @@
 
 namespace ConductorMagento2PlatformSupport;
 
-use Symfony\Component\Yaml\Yaml;
-
 class ConfigProvider
 {
     /**
-     * Returns the configuration array
-     *
      * To add a bit of a structure, each section is defined in a separate
      * method which returns an array with its configuration.
      *
      * @return array
      */
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             'application_orchestration' => [
@@ -26,17 +22,6 @@ class ConfigProvider
         ];
     }
 
-    /**
-     * @return array
-     */
-    private function getDependencyConfig(): array
-    {
-        return require(__DIR__ . '/../config/dependencies.php');
-    }
-
-    /**
-     * @return array
-     */
     private function getPlatformConfig(): array
     {
         return array_merge(
@@ -45,6 +30,11 @@ class ConfigProvider
             ],
             include __DIR__ . '/../config/platform.php'
         );
+    }
+
+    private function getDependencyConfig(): array
+    {
+        return require(__DIR__ . '/../config/dependencies.php');
     }
 
 }

@@ -1,50 +1,51 @@
 {
-    "name": "conductor/magento-2-platform-support",
-    "description": "Conductor Magento 2 Platform Support",
-    "type": "library",
-    "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "Kirk Madera",
-            "email": "kirk.madera@rmgmedia.com",
-            "role": "Architect"
-        }
-    ],
-    "config": {
-        "sort-packages": true
-    },
-    "require": {
-        "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0|~8.0.0|~8.1.0",
-        "conductor/application-orchestration": "^1.0.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5.7.23 || ^6.4.3",
-        "laminas/laminas-coding-standard": "~1.0.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "ConductorMagento2PlatformSupport\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "ConductorMagento2PlatformSupportTest\\": "test/"
-        }
-    },
-    "extra": {
-        "laminas": {
-            "config-provider": "ConductorMagento2PlatformSupport\\ConfigProvider"
-        }
-    },
-    "scripts": {
-        "check": [
-            "@cs-check",
-            "@test"
-        ],
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+  "name": "conductor/magento-2-platform-support",
+  "version": "2.0.1",
+  "description": "Conductor Magento 2 Platform Support",
+  "type": "library",
+  "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Kirk Madera",
+      "email": "kirk.madera@rmgmedia.com",
+      "role": "Architect"
     }
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "require": {
+    "php": "~8.2.0|~8.3.0|~8.4.0|~8.5.0",
+    "conductor/application-orchestration": "^2.0"
+  },
+  "require-dev": {
+    "laminas/laminas-coding-standard": "^2.3",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "ConductorMagento2PlatformSupport\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ConductorMagento2PlatformSupportTest\\": "test/"
+    }
+  },
+  "extra": {
+    "laminas": {
+      "config-provider": "ConductorMagento2PlatformSupport\\ConfigProvider"
+    }
+  },
+  "scripts": {
+    "check": [
+      "@cs-check",
+      "@test"
+    ],
+    "cs-check": "phpcs",
+    "cs-fix": "phpcbf",
+    "test": "phpunit --colors=always",
+    "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+  }
 }

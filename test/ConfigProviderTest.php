@@ -12,7 +12,7 @@ class ConfigProviderTest extends TestCase
      */
     private $configProvider;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->configProvider = new ConfigProvider();
     }
@@ -20,7 +20,7 @@ class ConfigProviderTest extends TestCase
     public function testInvoke()
     {
         $configProvider = $this->configProvider;
-        $this->assertInternalType('array', $configProvider());
+        $this->assertIsArray($configProvider());
     }
 
 }

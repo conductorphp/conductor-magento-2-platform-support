@@ -10,42 +10,22 @@ use Psr\Log\LoggerInterface;
 
 class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwareInterface
 {
-    /**
-     * @var ApplicationConfig
-     */
-    private $applicationConfig;
-    /**
-     * @var ShellAdapterManager
-     */
-    private $shellAdapterManager;
+    private ApplicationConfig $applicationConfig;
+    private ShellAdapterManager $shellAdapterManager;
+    private LoggerInterface $logger;
 
-    /**
-     * AppMaintenanceStrategy constructor.
-     *
-     * @param ApplicationConfig $applicationConfig
-     */
     public function __construct(ApplicationConfig $applicationConfig, ShellAdapterManager $shellAdapterManager)
     {
         $this->applicationConfig = $applicationConfig;
         $this->shellAdapterManager = $shellAdapterManager;
     }
 
-    /**
-     * Sets a logger instance on the object.
-     *
-     * @param LoggerInterface $logger
-     *
-     * @return void
-     */
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function enable(string $buildId = null): void
+    public function enable(?string $buildId = null): void
     {
         $currentWorkingDir = $buildId ? $this->applicationConfig->getCodePath($buildId) : $this->applicationConfig->getCurrentPath();
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
@@ -55,10 +35,7 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function disable(string $buildId = null): void
+    public function disable(?string $buildId = null): void
     {
         $currentWorkingDir = $buildId ? $this->applicationConfig->getCodePath($buildId) : $this->applicationConfig->getCurrentPath();
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
@@ -68,10 +45,7 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isEnabled(string $buildId = null): bool
+    public function isEnabled(?string $buildId = null): bool
     {
         $currentWorkingDir = $buildId ? $this->applicationConfig->getCodePath($buildId) : $this->applicationConfig->getCurrentPath();
         $shellAdapterNames = $this->applicationConfig->getMaintenanceShellAdapters();
@@ -91,7 +65,7 @@ class AppMaintenanceStrategy implements MaintenanceStrategyInterface, LoggerAwar
             return false;
         }
 
-        if (count($serversInMaintenance) == count($shellAdapterNames)) {
+        if (count($serversInMaintenance) === count($shellAdapterNames)) {
             return true;
         }
 
