@@ -1,6 +1,6 @@
 {
   "name": "conductor/magento-2-platform-support",
-  "version": "2.0.1",
+  "version": "3.1.0",
   "description": "Conductor Magento 2 Platform Support",
   "type": "library",
   "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
@@ -16,8 +16,8 @@
     "sort-packages": true
   },
   "require": {
-    "php": "~8.2.0|~8.3.0|~8.4.0|~8.5.0",
-    "conductor/application-orchestration": "^2.0"
+    "php": "~8.4.1|~8.5.0",
+    "conductor/application-orchestration": "^3.0"
   },
   "require-dev": {
     "laminas/laminas-coding-standard": "^2.3",

@@ -1,3 +1,10 @@
+[3.1.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.0.0...3.1.0) (2026-08-10)
+
+### Features
+* PHP 8.4.1+ (CTAP-1224) ([bef747b](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/bef747b3e70885536b81732ee09dba7719c9c8d2))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [2.0.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/2.0.0...2.0.1) (2026-06-25)
 
 ### Bug Fixes
