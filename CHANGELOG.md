@@ -1,3 +1,10 @@
+[3.1.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.0...3.1.1) (2026-08-11)
+
+### Bug Fixes
+* to phpunit 13 (CTAP-1226) ([e698600](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/e698600e2bb3d5b2aa22e858ac8d3b8282d1189a))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [3.1.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.0.0...3.1.0) (2026-08-10)
 
 ### Features

@@ -1,6 +1,6 @@
 {
   "name": "conductor/magento-2-platform-support",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Conductor Magento 2 Platform Support",
   "type": "library",
   "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",
@@ -21,7 +21,7 @@
   },
   "require-dev": {
     "laminas/laminas-coding-standard": "^2.3",
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^13.0"
   },
   "autoload": {
     "psr-4": {
