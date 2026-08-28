@@ -1,3 +1,10 @@
+[3.1.2](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.1...3.1.2) (2026-08-28)
+
+### Bug Fixes
+* amqp_max_messages in env.php (CTAP-1544) ([0dea4e2](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/0dea4e23618f04ab70bee92250d74efe3ed4fe5c))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [3.1.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.0...3.1.1) (2026-08-11)
 
 ### Bug Fixes
