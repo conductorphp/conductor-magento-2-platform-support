@@ -1,3 +1,8 @@
+[4.0.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.2...4.0.0) (2026-09-08)
+
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [3.1.2](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.1...3.1.2) (2026-08-28)
 
 ### Bug Fixes
