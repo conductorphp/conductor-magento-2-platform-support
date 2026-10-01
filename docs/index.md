@@ -27,3 +27,31 @@ Run this command from your Conductor root to install the default deployment plan
 ```bash
 cp vendor/conductor/magento-2-platform-support/config/deployment-plans.php.dist config/autoload/deployment-plans.global.php
 ```
+
+## TLS template variables (CTAP-2123)
+
+`app/etc/env.php.twig` takes these TLS variables. Every one is optional; without the variables added
+in CTAP-2123, the rendered `env.php` is byte-for-byte what earlier versions produced.
+
+| Variable | Since | Effect |
+|---|---|---|
+| `database_ssl` | CTAP-2123 | Turn TLS on for the database. Never falls back to plaintext: without a CA file, the system trust store (`openssl_get_cert_locations()`) is used. |
+| `database_ssl_ca` | earlier | CA file. Relative paths are under the Magento root. An empty file means none. |
+| `database_ssl_cert`, `database_ssl_key` | earlier | Client certificate and key, used together. |
+| `database_ssl_verify_cert` | earlier | Verify the server; with `database_ssl` it defaults to on. |
+| `redis_session_tls`, `redis_object_tls`, `redis_fpc_tls` | CTAP-2123 | Connect with the `tls://` scheme. |
+| `amqp_ssl` | earlier | AMQPS. |
+| `amqp_ssl_verify` | CTAP-2123 | Verify the broker, and accept empty certificate files as none. |
+| `amqp_ssl_cafile`, `amqp_ssl_certfile`, `amqp_ssl_keyfile` | earlier | CA, client certificate and key. |
+
+Without `database_ssl`, the earlier behavior holds: driver options are written only when a certificate
+path is set. Likewise, without `amqp_ssl_verify` the AMQP `ssl_options` are written as before.
+
+**Redis has no per-connection CA.** `Cm_Cache_Backend_Redis` and the session handler pass the host
+to Credis but expose no TLS context options, so a `tls://` connection verifies against PHP's default
+trust store (`openssl.cafile`, or the system bundle). A private CA must be installed in the image's
+trust store. Managed services with public certificates, such as ElastiCache, need nothing.
+
+Certificate files are usually rendered by the project's conductor config from base64 environment
+variables (`${DATABASE_TLS_CA|b64decode:-}`), the way JWT keys are; an unset variable renders an
+empty file, which these variables read as "none".

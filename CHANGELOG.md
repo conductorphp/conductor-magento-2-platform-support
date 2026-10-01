@@ -1,3 +1,10 @@
+[4.1.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.0.0...4.1.0) (2026-10-01)
+
+### Features
+* for Redis, and database/AMQP TLS from the environment (CTAP-2123) ([00b6129](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/00b612965b9ea39207917d408f7ea9959f5b8d28))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [4.0.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.2...4.0.0) (2026-09-08)
 
 
