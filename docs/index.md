@@ -44,8 +44,10 @@ in CTAP-2123, the rendered `env.php` is byte-for-byte what earlier versions prod
 | `amqp_ssl_verify` | CTAP-2123 | Verify the broker, and accept empty certificate files as none. |
 | `amqp_ssl_cafile`, `amqp_ssl_certfile`, `amqp_ssl_keyfile` | earlier | CA, client certificate and key. |
 
-Without `database_ssl`, the earlier behavior holds: driver options are written only when a certificate
-path is set. Likewise, without `amqp_ssl_verify` the AMQP `ssl_options` are written as before.
+When `database_ssl` is passed it alone decides: off renders no driver options even with certificate
+paths set, so a config can always pass the paths of its rendered certificate files. Without
+`database_ssl`, the earlier behavior holds: driver options are written only when a certificate path
+is set. Likewise, without `amqp_ssl_verify` the AMQP `ssl_options` are written as before.
 
 **Redis has no per-connection CA.** `Cm_Cache_Backend_Redis` and the session handler pass the host
 to Credis but expose no TLS context options, so a `tls://` connection verifies against PHP's default

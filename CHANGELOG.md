@@ -1,3 +1,10 @@
+[4.1.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.1.0...4.1.1) (2026-10-01)
+
+### Bug Fixes
+* off ignores certificate paths (CTAP-2124) ([9801f04](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/9801f04f1b724c7f81d80c4b5026684a28ae62c2))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [4.1.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.0.0...4.1.0) (2026-10-01)
 
 ### Features

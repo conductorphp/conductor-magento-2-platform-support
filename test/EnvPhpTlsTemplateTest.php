@@ -85,6 +85,19 @@ class EnvPhpTlsTemplateTest extends TestCase
         self::assertArrayNotHasKey('driver_options', $this->render(['database_ssl' => '0'])['db']['connection']['default']);
     }
 
+    /** A config passes the rendered paths whether or not TLS is on; the flag decides. */
+    public function testDatabaseTlsOffIgnoresCertificatePaths(): void
+    {
+        $config = $this->render([
+            'database_ssl'      => '0',
+            'database_ssl_ca'   => 'var/tls/database-ca.pem',
+            'database_ssl_cert' => 'var/tls/database-cert.pem',
+            'database_ssl_key'  => 'var/tls/database-key.pem',
+        ]);
+
+        self::assertArrayNotHasKey('driver_options', $config['db']['connection']['default']);
+    }
+
     public function testRedisTlsUsesTheTlsScheme(): void
     {
         $config = $this->render(['redis_session_tls' => '1', 'redis_object_tls' => '1', 'redis_fpc_tls' => '1']);
