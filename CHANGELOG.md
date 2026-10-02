@@ -1,3 +1,10 @@
+[4.3.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.2.0...4.3.0) (2026-10-02)
+
+### Features
+* the database @core table group into one group per reason (CTAP-2147) ([e12a3b5](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/e12a3b51d325ae46138049a85341e90b95505626))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [4.2.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.1.1...4.2.0) (2026-10-02)
 
 ### Features

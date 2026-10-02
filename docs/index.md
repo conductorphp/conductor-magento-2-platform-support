@@ -89,3 +89,39 @@ sync-assets:
           - '@compiled'
           - '@scratch'
 ```
+
+## Database table groups (CTAP-2147)
+
+A snapshot or deploy plan leaves database tables out by group, written `@name` in a database's
+`excludes` list. Table names may use `*` wildcards. Each group is one reason a table is excluded:
+
+| Group | Holds | Rebuilt by Magento |
+|---|---|---|
+| `@generated` | Indexer changelogs (`*_cl`), replicas, temp tables, import scratch data, sitemap records | Yes |
+| `@logs` | `*_log`, `*_debug`, `*_lock`, `cron_schedule`, `report_event` | Not needed |
+| `@sessions` | Admin and persistent sessions, visitors, OAuth nonces | Not needed |
+| `@reports` | Report aggregates (`*_aggregated*`, bestsellers, viewed products) and analytics data | Yes, by the report refresh and analytics jobs |
+| `@admin` | Admin users and passwords, OAuth consumers and tokens, admin notifications | **No**: private |
+| `@customers` | Customer accounts and addresses, newsletter subscribers, reviews, ratings, wishlists, alerts | **No**: private |
+| `@sales` | Orders, invoices, shipments, credit memos, sequences, carts (quotes), payment records | **No**: private |
+| `@magento1` | Magento 1 table names that do not exist on Magento 2 | Not applicable |
+| `@core` | all of the above | Mixed |
+
+`@core` is what the distributed plans use. Exclude a subset when a copy should keep some of the data.
+For example, a copy for debugging an order problem can keep orders and customers:
+
+```yaml
+upload-databases:
+  class: ConductorAppOrchestration\Snapshot\Command\UploadDatabasesCommand
+  options:
+    databases:
+      magento:
+        excludes:
+          - '@generated'
+          - '@logs'
+          - '@sessions'
+          - '@reports'
+          - '@admin'
+```
+
+Such a snapshot holds customer data; store and share it accordingly.
