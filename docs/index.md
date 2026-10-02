@@ -57,3 +57,35 @@ trust store. Managed services with public certificates, such as ElastiCache, nee
 Certificate files are usually rendered by the project's conductor config from base64 environment
 variables (`${DATABASE_TLS_CA|b64decode:-}`), the way JWT keys are; an unset variable renders an
 empty file, which these variables read as "none".
+
+## Media asset groups (CTAP-2146)
+
+Snapshot and deployment plans exclude media paths by group, written `@name` in an asset's
+`excludes` (or `includes`) list. Groups compose: list several, or mix them with literal paths.
+
+| Group | Paths under `pub/media` | Regenerable |
+|---|---|---|
+| `@cache` | `/catalog/category/cache`, `/catalog/product/cache`, `/catalog/placeholder/cache` | Yes: resized images, rebuilt on request or by `catalog:images:resize` |
+| `@compiled` | `/css`, `/css_secure`, `/js`, `/js_secure` | Yes: merged and minified CSS/JS, rebuilt on request |
+| `@scratch` | `/captcha`, `/tmp` | Yes: short-lived files |
+| `@import` | `/import` | **No**: import files are data |
+| `@core` | all of the above | Mixed |
+
+`@core` is the union of the other four and is what the distributed plans use, so a plan that
+copies media between environments skips all of it.
+
+A **media backup** should exclude only what Magento can regenerate, and keep `/import`:
+
+```yaml
+sync-assets:
+  class: ConductorAppOrchestration\Snapshot\Command\SyncAssetsCommand
+  options:
+    assets:
+      pub/media:
+        location: shared
+        ensure: directory
+        excludes:
+          - '@cache'
+          - '@compiled'
+          - '@scratch'
+```

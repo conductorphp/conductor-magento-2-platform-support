@@ -1,3 +1,10 @@
+[4.2.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.1.1...4.2.0) (2026-10-02)
+
+### Features
+* media @core into cache, compiled, scratch and import groups (CTAP-2146) ([c16c769](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/c16c769166016b3e59aef244792f86fd39ec22e3))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [4.1.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.1.0...4.1.1) (2026-10-01)
 
 ### Bug Fixes
