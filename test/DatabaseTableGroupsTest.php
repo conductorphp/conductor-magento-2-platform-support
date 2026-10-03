@@ -230,7 +230,12 @@ class DatabaseTableGroupsTest extends TestCase
         'wishlist_item_option',
     ];
 
-    private const GROUPS = ['generated', 'logs', 'sessions', 'admin', 'reports', 'customers', 'sales', 'magento1'];
+    /** The CTAP-2147 purpose groups, deprecated by CTAP-2161, and what @core lists itself. */
+    private const PURPOSE_GROUPS = ['logs', 'sessions', 'admin', 'reports', 'customers', 'sales', 'magento1'];
+    private const CORE_OWN_ENTRIES = ['*_cl', '*_replica', '*_tmp', 'importexport_importdata', 'sitemap'];
+
+    /** CTAP-2161: groups by the nature of the data. They may overlap. */
+    private const NATURE_GROUPS = ['generated', 'cache', 'scratch', 'personal_data', 'environment'];
 
     private SnapshotConfig $snapshotConfig;
 
@@ -248,11 +253,11 @@ class DatabaseTableGroupsTest extends TestCase
         $this->assertSame($expected, $this->snapshotConfig->expandDatabaseTableGroups(['@core']));
     }
 
-    /** No table is excluded for two reasons, so groups compose without repeating a name. */
-    public function testEachTableIsInExactlyOneGroup(): void
+    /** The purpose groups do not overlap, and with @core's own entries they make up @core. */
+    public function testThePurposeGroupsPartitionCore(): void
     {
-        $all = [];
-        foreach (self::GROUPS as $group) {
+        $all = self::CORE_OWN_ENTRIES;
+        foreach (self::PURPOSE_GROUPS as $group) {
             $tables = $this->snapshotConfig->expandDatabaseTableGroups(['@' . $group]);
             $this->assertNotEmpty($tables, "Group \"$group\" is empty.");
             $this->assertSame([], array_values(array_intersect($all, $tables)), "Group \"$group\" repeats a table.");
@@ -262,10 +267,70 @@ class DatabaseTableGroupsTest extends TestCase
         $this->assertCount(count(self::CORE_BEFORE_SPLIT), $all);
     }
 
+    /**
+     * Moving a plan from @core to the nature groups must not start copying a table @core left out.
+     * Every Magento 2 entry of @core is matched by a nature group; the Magento 1 names match no table.
+     */
+    public function testTheNatureGroupsCoverEveryMagento2EntryOfCore(): void
+    {
+        $natures = $this->snapshotConfig->expandDatabaseTableGroups(
+            array_map(static fn(string $g): string => '@' . $g, self::NATURE_GROUPS)
+        );
+        $magento1 = $this->snapshotConfig->expandDatabaseTableGroups(['@magento1']);
+
+        $uncovered = array_values(array_filter(
+            array_diff(self::CORE_BEFORE_SPLIT, $magento1),
+            static fn(string $entry): bool => ! array_filter($natures, static fn(string $p): bool => fnmatch($p, $entry))
+        ));
+
+        $this->assertSame([], $uncovered);
+    }
+
+    public function testNatureGroupsHoldWhatTheirNameSays(): void
+    {
+        $expand = fn(string $group): array => $this->snapshotConfig->expandDatabaseTableGroups(["@$group"]);
+
+        foreach (['*_cl', 'sales_bestsellers_aggregated_daily'] as $table) {
+            $this->assertContains($table, $expand('generated'));
+        }
+        $this->assertSame(['cache', 'cache_tag'], $expand('cache'));
+        foreach (['cron_schedule', 'session', 'queue_message', 'magento_bulk'] as $table) {
+            $this->assertContains($table, $expand('scratch'));
+        }
+        foreach (['customer_entity', 'sales_order', 'quote', 'admin_user', 'session', 'vault_payment_token'] as $table) {
+            $this->assertContains($table, $expand('personal_data'));
+        }
+        foreach (['oauth_token', 'oauth_consumer', 'integration', 'admin_passwords', 'sitemap'] as $table) {
+            $this->assertContains($table, $expand('environment'));
+        }
+    }
+
+    /** A table can be of several natures: an admin user is a person and a credential. */
+    public function testNatureGroupsMayOverlap(): void
+    {
+        $this->assertContains('admin_user', $this->snapshotConfig->expandDatabaseTableGroups(['@personal_data']));
+        $this->assertContains('admin_user', $this->snapshotConfig->expandDatabaseTableGroups(['@environment']));
+        $this->assertSame(
+            1,
+            count(array_keys(
+                $this->snapshotConfig->expandDatabaseTableGroups(['@personal_data', '@environment']),
+                'admin_user'
+            ))
+        );
+    }
+
+    public function testCoreAndThePurposeGroupsAreDeprecated(): void
+    {
+        $this->assertSame(
+            ['core', 'common_modules', ...self::PURPOSE_GROUPS],
+            array_keys($this->snapshotConfig->deprecatedDatabaseTableGroups)
+        );
+    }
+
     /** A copy that keeps orders and customers but drops what Magento rebuilds and the noise. */
     public function testGroupsComposeInOneList(): void
     {
-        $tables = $this->snapshotConfig->expandDatabaseTableGroups(['@generated', '@logs', '@reports', 'my_table']);
+        $tables = $this->snapshotConfig->expandDatabaseTableGroups(['@generated', '@scratch', 'my_table']);
 
         $this->assertContains('*_cl', $tables);
         $this->assertContains('cron_schedule', $tables);

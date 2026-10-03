@@ -25,13 +25,12 @@ return [
     ],
     'snapshot' => [
         'asset_groups' => [
-            // Everything below except "import" is regenerable, so a media backup excludes
-            // @cache, @compiled and @scratch rather than @core and keeps /import
-            'core' => [
-                '@cache',
-                '@compiled',
-                '@scratch',
-                '@import',
+            // Rebuilt by Magento: merged and minified CSS/JS
+            'generated' => [
+                '/css',
+                '/css_secure',
+                '/js',
+                '/js_secure',
             ],
             // Resized images and placeholders, rebuilt on request or by catalog:images:resize
             'cache' => [
@@ -39,31 +38,213 @@ return [
                 '/catalog/product/cache',
                 '/catalog/placeholder/cache',
             ],
-            // Merged and minified CSS/JS, rebuilt on request
-            'compiled' => [
-                '/css',
-                '/css_secure',
-                '/js',
-                '/js_secure',
-            ],
-            // Short-lived files: CAPTCHA images and uploads in progress
+            // Short-lived: CAPTCHA images and uploads in progress
             'scratch' => [
                 '/captcha',
                 '/tmp',
             ],
-            // Import files; data, not regenerable
+            // Files customers upload (customer and address file attributes, file-type custom options), and
+            // the import drop, whose files can carry customer data
+            'personal_data' => [
+                '/customer',
+                '/customer_address',
+                '/custom_options',
+                '/import',
+            ],
+            // Nothing in media belongs to one environment only
+            'environment' => [],
+
+            // Deprecated (CTAP-2161): see deprecated_asset_groups. They expand exactly as before.
+            'core' => [
+                '@cache',
+                '@compiled',
+                '@scratch',
+                '@import',
+            ],
+            'compiled' => [
+                '@generated',
+            ],
             'import' => [
                 '/import',
             ],
             'common_modules' => [],
         ],
         'database_table_groups' => [
-            // @todo Add group to exclude indexes, but do not include in core (It's generally faster to export/import
-            //       indexes than it is to reindex them
-            // Everything a copy between environments leaves out. Each group below is one reason a table is
-            // excluded, so a plan can exclude some reasons and keep the rest
+            // @todo A group for the index tables (catalog_*_index_*): copying them is usually faster than
+            //       reindexing, so they are deliberately in no group here
+            // Rebuilt by Magento: indexer changelogs, replicas and temp tables, report aggregates and
+            // analytics data (the report refresh and analytics jobs rebuild them)
+            'generated' => [
+                '*_cl',
+                '*_replica',
+                '*_tmp',
+                'coupon_aggregated',
+                'coupon_aggregated_order',
+                'coupon_aggregated_updated',
+                'rating_option_vote_aggregated',
+                'report_compared_product_index',
+                'report_viewed_product_aggregated_daily',
+                'report_viewed_product_aggregated_monthly',
+                'report_viewed_product_aggregated_yearly',
+                'report_viewed_product_index',
+                'reporting_counts',
+                'reporting_module_status',
+                'reporting_orders',
+                'reporting_system_updates',
+                'reporting_users',
+                'sales_bestsellers_aggregated_daily',
+                'sales_bestsellers_aggregated_monthly',
+                'sales_bestsellers_aggregated_yearly',
+                'sales_invoiced_aggregated',
+                'sales_invoiced_aggregated_order',
+                'sales_order_aggregated_created',
+                'sales_order_aggregated_updated',
+                'sales_refunded_aggregated',
+                'sales_refunded_aggregated_order',
+                'sales_shipping_aggregated',
+                'sales_shipping_aggregated_order',
+                'tax_order_aggregated_created',
+                'tax_order_aggregated_updated',
+            ],
+            // The database cache backend
+            'cache' => [
+                'cache',
+                'cache_tag',
+            ],
+            // Short-lived: logs, debug output, locks, cron history, sessions, visitor tracking, queued
+            // messages and bulk operations, import scratch data, admin notifications
+            'scratch' => [
+                '*_debug',
+                '*_log',
+                '*_lock',
+                'cron_schedule',
+                'report_event',
+                'importexport_importdata',
+                'adminnotification_inbox',
+                'admin_system_messages',
+                'session',
+                'customer_visitor',
+                'persistent_session',
+                'admin_user_session',
+                'oauth_nonce',
+                'password_reset_request_event',
+                'queue_message',
+                'queue_message_status',
+                'magento_bulk',
+                'magento_operation',
+                'magento_acknowledged_bulk',
+            ],
+            // Relates to a person: customers and their addresses, admin users, sessions, orders, carts,
+            // invoices, shipments and their sequences, payment records, reviews and ratings, wishlists,
+            // compare lists, alerts, newsletter subscribers, viewed products
+            'personal_data' => [
+                'catalog_compare_item',
+                'customer_address_entity',
+                'customer_address_entity_*',
+                'customer_entity',
+                'customer_entity_*',
+                'customer_grid_flat',
+                'newsletter_problem',
+                'newsletter_queue',
+                'newsletter_queue_link',
+                'newsletter_queue_store_link',
+                'newsletter_subscriber',
+                'newsletter_subscriber_backup',
+                'product_alert_price',
+                'product_alert_stock',
+                'rating_option_vote',
+                'review',
+                'review_detail',
+                'review_entity_summary',
+                'review_store',
+                'wishlist',
+                'wishlist_item',
+                'wishlist_item_option',
+                'customer_log',
+                'customer_visitor',
+                'persistent_session',
+                'session',
+                'admin_user',
+                'admin_passwords',
+                'admin_user_session',
+                'login_as_customer',
+                'login_as_customer_assistance_allowed',
+                'report_compared_product_index',
+                'report_viewed_product_index',
+                'reporting_users',
+                'vault_payment_token',
+                'downloadable_link_purchased',
+                'downloadable_link_purchased_item',
+                'gift_message',
+                'magento_sales_creditmemo_grid_archive',
+                'magento_sales_invoice_grid_archive',
+                'magento_sales_order_grid_archive',
+                'magento_sales_shipment_grid_archive',
+                'paypal_payment_transaction',
+                'paypal_settlement_report',
+                'paypal_settlement_report_row',
+                'quote',
+                'quote_address',
+                'quote_address_item',
+                'quote_id_mask',
+                'quote_item',
+                'quote_item_option',
+                'quote_payment',
+                'quote_preview',
+                'quote_shipping_rate',
+                'sales_billing_agreement',
+                'sales_billing_agreement_order',
+                'sales_creditmemo',
+                'sales_creditmemo_comment',
+                'sales_creditmemo_grid',
+                'sales_creditmemo_item',
+                'sales_invoice',
+                'sales_invoice_comment',
+                'sales_invoice_grid',
+                'sales_invoice_item',
+                'sales_order',
+                'sales_order_address',
+                'sales_order_grid',
+                'sales_order_item',
+                'sales_order_payment',
+                'sales_order_status_history',
+                'sales_shipment',
+                'sales_shipment_comment',
+                'sales_shipment_grid',
+                'sales_shipment_item',
+                'sales_shipment_track',
+                'sales_order_tax',
+                'sales_order_tax_item',
+                'sales_payment_transaction',
+                'salesrule_coupon_usage',
+                'salesrule_customer',
+                'sequence_creditmemo_*',
+                'sequence_invoice_*',
+                'sequence_order_*',
+                'sequence_rma_item_*',
+                'sequence_shipment_*',
+            ],
+            // Belongs to the source environment: credentials (admin password hashes, OAuth and JWT
+            // tokens, integrations, vault payment tokens) and sitemap records, whose paths are per host
+            'environment' => [
+                'admin_user',
+                'admin_passwords',
+                'oauth_consumer',
+                'oauth_token',
+                'integration',
+                'vault_payment_token',
+                'jwt_auth_revoked',
+                'sitemap',
+            ],
+
+            // Deprecated (CTAP-2161): see deprecated_database_table_groups. They expand exactly as
+            // before; @core lists its former @generated entries itself, as @generated now means more.
             'core' => [
-                '@generated',
+                '*_cl',
+                '*_replica',
+                '*_tmp',
+                'importexport_importdata',
+                'sitemap',
                 '@logs',
                 '@sessions',
                 '@admin',
@@ -72,16 +253,6 @@ return [
                 '@sales',
                 '@magento1',
             ],
-            // Rebuilt by Magento: indexer changelogs, replicas and temp tables, import scratch data, sitemap
-            // generation records (they point at files on the source host)
-            'generated' => [
-                '*_cl',
-                '*_replica',
-                '*_tmp',
-                'importexport_importdata',
-                'sitemap',
-            ],
-            // Logs, debug output, locks and cron history
             'logs' => [
                 '*_debug',
                 '*_log',
@@ -90,14 +261,12 @@ return [
                 'dataintercept_api_debug',
                 'report_event',
             ],
-            // Sessions and visitor tracking
             'sessions' => [
                 'admin_user_session',
                 'customer_visitor',
                 'oauth_nonce',
                 'persistent_session',
             ],
-            // Admin users and their passwords, API and OAuth credentials, admin notifications
             'admin' => [
                 'adminnotification_inbox',
                 'admin_passwords',
@@ -106,7 +275,6 @@ return [
                 'oauth_consumer',
                 'oauth_token',
             ],
-            // Report aggregates and analytics data, rebuilt by the report refresh and analytics jobs
             'reports' => [
                 'coupon_aggregated',
                 'coupon_aggregated_order',
@@ -136,8 +304,6 @@ return [
                 'tax_order_aggregated_created',
                 'tax_order_aggregated_updated',
             ],
-            // Customer accounts and what customers create: addresses, newsletter subscriptions, reviews and
-            // ratings, wishlists, compare lists and stock/price alerts
             'customers' => [
                 'catalog_compare_item',
                 'customer_address_entity',
@@ -162,8 +328,6 @@ return [
                 'wishlist_item',
                 'wishlist_item_option',
             ],
-            // Orders, invoices, shipments, credit memos and their sequences, carts (quotes), payment records
-            // and coupon usage
             'sales' => [
                 'downloadable_link_purchased',
                 'downloadable_link_purchased_item',
@@ -216,7 +380,6 @@ return [
                 'sequence_rma_item_*',
                 'sequence_shipment_*',
             ],
-            // Magento 1 table names, none of which exist on Magento 2; kept so @core is unchanged
             'magento1' => [
                 'api2_acl_attribute',
                 'api2_acl_role',
@@ -526,6 +689,25 @@ return [
             'gomage/feed' => [
                 'gomage_feed_entity',
             ],
+        ],
+        // Groups kept for compatibility (CTAP-2161). A plan that names one gets a warning with what to use
+        // instead; they are removed in the next major.
+        'deprecated_asset_groups' => [
+            'core' => 'Use @generated, @cache and @scratch, and @personal_data for customer files and /import.',
+            'compiled' => 'Use @generated.',
+            'import' => 'Use @personal_data, which includes /import.',
+            'common_modules' => 'It is empty; remove it.',
+        ],
+        'deprecated_database_table_groups' => [
+            'core' => 'Use @generated, @cache, @scratch, @personal_data and @environment.',
+            'common_modules' => 'Name the module groups your application needs (they stay), or use a group of your own.',
+            'logs' => 'Use @scratch.',
+            'sessions' => 'Use @scratch, and @personal_data, which includes sessions.',
+            'admin' => 'Use @personal_data and @environment.',
+            'reports' => 'Use @generated.',
+            'customers' => 'Use @personal_data.',
+            'sales' => 'Use @personal_data.',
+            'magento1' => 'Magento 1 table names match nothing on Magento 2; drop it.',
         ],
     ],
 ];

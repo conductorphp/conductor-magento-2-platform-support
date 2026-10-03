@@ -1,3 +1,10 @@
+[4.4.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.3.0...4.4.0) (2026-10-03)
+
+### Features
+* groups by nature; deprecate @core and the module groups (CTAP-2161) ([98191dc](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/98191dce959d0b1c85dc746a58508bed96809b3b))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [4.3.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.2.0...4.3.0) (2026-10-02)
 
 ### Features

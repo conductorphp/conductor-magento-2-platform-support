@@ -1,6 +1,6 @@
 {
   "name": "conductor/magento-2-platform-support",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "description": "Conductor Magento 2 Platform Support",
   "type": "library",
   "homepage": "https://github.com/conductorphp/conductor-magento-2-platform-support",

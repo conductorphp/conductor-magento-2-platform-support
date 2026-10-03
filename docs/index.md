@@ -58,57 +58,29 @@ Certificate files are usually rendered by the project's conductor config from ba
 variables (`${DATABASE_TLS_CA|b64decode:-}`), the way JWT keys are; an unset variable renders an
 empty file, which these variables read as "none".
 
-## Media asset groups (CTAP-2146)
+## Snapshot groups (CTAP-2161)
 
-Snapshot and deployment plans exclude media paths by group, written `@name` in an asset's
-`excludes` (or `includes`) list. Groups compose: list several, or mix them with literal paths.
+A snapshot or deploy plan leaves media paths and database tables out by group, written `@name` in an
+asset's or a database's `excludes` list. Each group holds one **nature** of data, so a plan names
+what it leaves out and why:
 
-| Group | Paths under `pub/media` | Regenerable |
+| Group | Media (`pub/media`) | Tables |
 |---|---|---|
-| `@cache` | `/catalog/category/cache`, `/catalog/product/cache`, `/catalog/placeholder/cache` | Yes: resized images, rebuilt on request or by `catalog:images:resize` |
-| `@compiled` | `/css`, `/css_secure`, `/js`, `/js_secure` | Yes: merged and minified CSS/JS, rebuilt on request |
-| `@scratch` | `/captcha`, `/tmp` | Yes: short-lived files |
-| `@import` | `/import` | **No**: import files are data |
-| `@core` | all of the above | Mixed |
+| `@generated` | `/css`, `/js` and their `_secure` twins | Indexer changelogs (`*_cl`), replicas, temp tables, report aggregates, analytics data |
+| `@cache` | Resized image and placeholder caches | `cache`, `cache_tag` |
+| `@scratch` | `/captcha`, `/tmp` | Logs, debug output, locks, cron history, sessions, visitors, queued messages, bulk operations, import scratch data, admin notifications |
+| `@personal_data` | Customer and address file uploads, custom-option files, `/import` | Customers, addresses, admin users, sessions, orders, carts, invoices, shipments and their sequences, payment records, reviews, wishlists, alerts, newsletter subscribers |
+| `@environment` | Nothing | Credentials (admin password hashes, OAuth and JWT tokens, integrations, vault payment tokens) and sitemap records |
 
-`@core` is the union of the other four and is what the distributed plans use, so a plan that
-copies media between environments skips all of it.
+A table can be of several natures, so it can sit in several groups: an admin user is personal data
+and a credential, a session is short-lived and personal. Each group is complete for its nature, and a
+plan listing several groups gets each table once. Patterns use `*` (`fnmatch` for tables, rsync rules
+for paths, where a leading `/` anchors at the media root).
 
-A **media backup** should exclude only what Magento can regenerate, and keep `/import`:
+The groups cover Magento's own tables. Tables of third-party modules are not in them: list the
+ones your application needs in a group of your own.
 
-```yaml
-sync-assets:
-  class: ConductorAppOrchestration\Snapshot\Command\SyncAssetsCommand
-  options:
-    assets:
-      pub/media:
-        location: shared
-        ensure: directory
-        excludes:
-          - '@cache'
-          - '@compiled'
-          - '@scratch'
-```
-
-## Database table groups (CTAP-2147)
-
-A snapshot or deploy plan leaves database tables out by group, written `@name` in a database's
-`excludes` list. Table names may use `*` wildcards. Each group is one reason a table is excluded:
-
-| Group | Holds | Rebuilt by Magento |
-|---|---|---|
-| `@generated` | Indexer changelogs (`*_cl`), replicas, temp tables, import scratch data, sitemap records | Yes |
-| `@logs` | `*_log`, `*_debug`, `*_lock`, `cron_schedule`, `report_event` | Not needed |
-| `@sessions` | Admin and persistent sessions, visitors, OAuth nonces | Not needed |
-| `@reports` | Report aggregates (`*_aggregated*`, bestsellers, viewed products) and analytics data | Yes, by the report refresh and analytics jobs |
-| `@admin` | Admin users and passwords, OAuth consumers and tokens, admin notifications | **No**: private |
-| `@customers` | Customer accounts and addresses, newsletter subscribers, reviews, ratings, wishlists, alerts | **No**: private |
-| `@sales` | Orders, invoices, shipments, credit memos, sequences, carts (quotes), payment records | **No**: private |
-| `@magento1` | Magento 1 table names that do not exist on Magento 2 | Not applicable |
-| `@core` | all of the above | Mixed |
-
-`@core` is what the distributed plans use. Exclude a subset when a copy should keep some of the data.
-For example, a copy for debugging an order problem can keep orders and customers:
+A **seed** for lower environments leaves out everything but the store's own data:
 
 ```yaml
 upload-databases:
@@ -116,12 +88,44 @@ upload-databases:
   options:
     databases:
       magento:
-        excludes:
-          - '@generated'
-          - '@logs'
-          - '@sessions'
-          - '@reports'
-          - '@admin'
+        excludes: [ '@generated', '@cache', '@scratch', '@personal_data', '@environment' ]
+sync-assets:
+  class: ConductorAppOrchestration\Snapshot\Command\SyncAssetsCommand
+  options:
+    assets:
+      pub/media:
+        location: shared
+        ensure: directory
+        excludes: [ '@generated', '@cache', '@scratch', '@personal_data' ]
 ```
 
-Such a snapshot holds customer data; store and share it accordingly.
+A **media backup** keeps everything Magento cannot rebuild, customer uploads included:
+`excludes: [ '@generated', '@cache', '@scratch' ]`.
+
+### Deprecated groups
+
+These keep working and expand exactly as before. A plan that names one logs a warning saying what
+to use instead (with `conductor/application-orchestration` 4.7 or later). They are removed in the
+next major.
+
+| Group | Use instead |
+|---|---|
+| media `@core` | `@generated`, `@cache`, `@scratch`, and `@personal_data` for customer files and `/import` |
+| media `@compiled` | `@generated` |
+| media `@import` | `@personal_data` |
+| `@common_modules` (media and tables) | The module groups your application needs (they stay), or a group of your own |
+| tables `@core` | `@generated`, `@cache`, `@scratch`, `@personal_data`, `@environment` |
+| `@logs` | `@scratch` |
+| `@sessions` | `@scratch` and `@personal_data` |
+| `@admin` | `@personal_data` and `@environment` |
+| `@reports` | `@generated` |
+| `@customers`, `@sales` | `@personal_data` |
+| `@magento1` | Nothing: Magento 1 table names match no Magento 2 table |
+
+The nature groups leave out at least what `@core` did, so moving a plan from `@core` to them never
+starts copying something it used to drop. They also leave out more: customer uploads, `cache` and
+`cache_tag`, `session`, queued messages, vault payment tokens, `jwt_auth_revoked`, and others that
+`@core` missed.
+
+Do not redefine a group this package ships: application config is laid over platform config with
+`array_replace_recursive`, which replaces list entries by position.

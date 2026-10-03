@@ -77,4 +77,37 @@ class MediaAssetGroupsTest extends TestCase
             $this->snapshotConfig->expandAssetGroups(['@scratch', '/wysiwyg/.thumbs'])
         );
     }
+
+    /** CTAP-2161: the media groups by nature. */
+    public function testNatureGroups(): void
+    {
+        $expand = fn(string $group): array => $this->snapshotConfig->expandAssetGroups(["@$group"]);
+
+        $this->assertSame(['/css', '/css_secure', '/js', '/js_secure'], $expand('generated'));
+        $this->assertSame(
+            ['/catalog/category/cache', '/catalog/placeholder/cache', '/catalog/product/cache'],
+            $expand('cache')
+        );
+        $this->assertSame(['/captcha', '/tmp'], $expand('scratch'));
+        $this->assertSame(['/custom_options', '/customer', '/customer_address', '/import'], $expand('personal_data'));
+        $this->assertSame([], $expand('environment'));
+    }
+
+    /** Moving a plan from @core to the nature groups leaves out at least what @core did. */
+    public function testTheNatureGroupsCoverCore(): void
+    {
+        $natures = $this->snapshotConfig->expandAssetGroups(
+            ['@generated', '@cache', '@scratch', '@personal_data', '@environment']
+        );
+
+        $this->assertSame([], array_values(array_diff($this->snapshotConfig->expandAssetGroups(['@core']), $natures)));
+    }
+
+    public function testCoreAndTheModuleGroupsAreDeprecated(): void
+    {
+        $this->assertSame(
+            ['core', 'compiled', 'import', 'common_modules'],
+            array_keys($this->snapshotConfig->deprecatedAssetGroups)
+        );
+    }
 }
