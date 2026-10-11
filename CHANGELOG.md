@@ -1,3 +1,50 @@
+[5.0.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.4.0...5.0.0) (2026-10-11)
+
+### Bug Fixes
+* amqp_max_messages in env.php (CTAP-1544) ([0dea4e2](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/0dea4e23618f04ab70bee92250d74efe3ed4fe5c))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
+[4.4.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.3.0...4.4.0) (2026-10-03)
+
+### Features
+* groups by nature; deprecate @core and the module groups (CTAP-2161) ([98191dc](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/98191dce959d0b1c85dc746a58508bed96809b3b))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
+[4.3.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.2.0...4.3.0) (2026-10-02)
+
+### Features
+* the database @core table group into one group per reason (CTAP-2147) ([e12a3b5](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/e12a3b51d325ae46138049a85341e90b95505626))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
+[4.2.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.1.1...4.2.0) (2026-10-02)
+
+### Features
+* media @core into cache, compiled, scratch and import groups (CTAP-2146) ([c16c769](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/c16c769166016b3e59aef244792f86fd39ec22e3))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
+[4.1.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.1.0...4.1.1) (2026-10-01)
+
+### Bug Fixes
+* off ignores certificate paths (CTAP-2124) ([9801f04](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/9801f04f1b724c7f81d80c4b5026684a28ae62c2))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
+[4.1.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.0.0...4.1.0) (2026-10-01)
+
+### Features
+* for Redis, and database/AMQP TLS from the environment (CTAP-2123) ([00b6129](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/00b612965b9ea39207917d408f7ea9959f5b8d28))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
+[4.0.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.2...4.0.0) (2026-09-08)
+
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [3.1.2](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/3.1.1...3.1.2) (2026-08-28)
 
 ### Bug Fixes
