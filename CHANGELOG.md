@@ -1,3 +1,10 @@
+[5.0.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/5.0.0...5.0.1) (2026-10-12)
+
+### Bug Fixes
+* TLS driver options raise no deprecation on PHP 8.5 (CTAP-2417) ([1b25e70](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/1b25e704d12d4a70ab5d75905b629ccf876ddc8b))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [5.0.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/4.4.0...5.0.0) (2026-10-11)
 
 ### Bug Fixes
