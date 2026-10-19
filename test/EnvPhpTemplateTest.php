@@ -64,6 +64,44 @@ class EnvPhpTemplateTest extends TestCase
         $this->assertSame(0, $config['queue']['consumers_wait_for_messages']);
     }
 
+    /**
+     * Magento 2.4.7+ generates cache/graphql/id_salt on first use and tries to write it into env.php,
+     * which conductor renders read-only, so without it every request logs the failed write and the
+     * salt is never kept (CTAP-2733).
+     */
+    public function testGraphqlIdSaltIsRenderedWithoutRedis(): void
+    {
+        $config = $this->render(['graphql_id_salt' => 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6']);
+
+        $this->assertSame(['graphql' => ['id_salt' => 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6']], $config['cache']);
+    }
+
+    public function testGraphqlIdSaltSitsBesideTheRedisFrontends(): void
+    {
+        $config = $this->render([
+            'graphql_id_salt' => 'salt',
+            'redis_object_host' => 'redis',
+            'redis_object_port' => 6379,
+            'redis_fpc_host' => 'redis',
+            'redis_fpc_port' => 6379,
+        ]);
+
+        $this->assertSame(['default', 'page_cache'], array_keys($config['cache']['frontend']));
+        $this->assertSame('salt', $config['cache']['graphql']['id_salt']);
+    }
+
+    public function testNoSaltAndNoRedisRendersNoCacheSection(): void
+    {
+        $this->assertArrayNotHasKey('cache', $this->render([]));
+    }
+
+    public function testRedisWithoutASaltRendersNoGraphqlKey(): void
+    {
+        $config = $this->render(['redis_object_host' => 'redis', 'redis_object_port' => 6379]);
+
+        $this->assertArrayNotHasKey('graphql', $config['cache']);
+    }
+
     private function render(array $templateVars): array
     {
         $template = __DIR__ . '/../files/app/etc/env.php.twig';

@@ -1,3 +1,10 @@
+[5.1.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/5.0.1...5.1.0) (2026-10-19)
+
+### Features
+* graphql_id_salt renders cache/graphql/id_salt into env.php (CTAP-2733) ([52ed35f](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/52ed35fdd4ac67ec7a4e26739d24b8308fb84e83))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [5.0.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/5.0.0...5.0.1) (2026-10-12)
 
 ### Bug Fixes

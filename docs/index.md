@@ -58,6 +58,19 @@ Certificate files are usually rendered by the project's conductor config from ba
 variables (`${DATABASE_TLS_CA|b64decode:-}`), the way JWT keys are; an unset variable renders an
 empty file, which these variables read as "none".
 
+## GraphQL cache salt (CTAP-2733)
+
+`graphql_id_salt` renders `cache/graphql/id_salt`, which Magento 2.4.7+ uses to salt the
+`X-Magento-Cache-Id` header. Magento writes a generated salt into `env.php` when the key is missing.
+Conductor renders `env.php` read-only, so that write fails and php-fpm logs `Unable to obtain
+X-Magento-Cache-Id value: The "env.php" deployment config file isn't writable` until the variable is
+set. The `graphql` key is rendered whether or not Redis is configured. Without the variable, nothing
+about `env.php` changes.
+
+Set a fixed value per environment tier, committed as `enc:v1` ciphertext like `encryption_key`. A
+salt that changes between deploys invalidates the GraphQL cache each time. The upgrade steps are in
+the conductor monorepo's `docs/migrations/2026/10/2026-10-18-magento-graphql-id-salt.md`.
+
 ## Snapshot groups (CTAP-2161)
 
 A snapshot or deploy plan leaves media paths and database tables out by group, written `@name` in an
