@@ -71,6 +71,14 @@ Set a fixed value per environment tier, committed as `enc:v1` ciphertext like `e
 salt that changes between deploys invalidates the GraphQL cache each time. The upgrade steps are in
 the conductor monorepo's `docs/migrations/2026/10/2026-10-18-magento-graphql-id-salt.md`.
 
+## Connection charset (CTAP-2851)
+
+`env.php` renders no `initStatements` for the database connection. Magento 2.4.9 then sends a
+`SET NAMES utf8mb4` chosen from the server version, and its `setup:upgrade` removes a
+`SET NAMES utf8;` it finds, since that holds connections to 3-byte UTF-8 on `utf8mb4` tables.
+Magento 2.4.7 and 2.4.8 fall back to `SET NAMES utf8` on their own when the key is absent, so they
+behave as before.
+
 ## Snapshot groups (CTAP-2161)
 
 A snapshot or deploy plan leaves media paths and database tables out by group, written `@name` in an

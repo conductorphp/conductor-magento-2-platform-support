@@ -1,3 +1,10 @@
+[5.1.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/5.1.0...5.1.1) (2026-10-22)
+
+### Bug Fixes
+* env.php renders no SET NAMES utf8 init statement (CTAP-2851) ([e1b110f](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/e1b110f54db2bde688cd3d64b0e8d7cca24d37b7))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [5.1.0](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/5.0.1...5.1.0) (2026-10-19)
 
 ### Features

@@ -102,6 +102,17 @@ class EnvPhpTemplateTest extends TestCase
         $this->assertArrayNotHasKey('graphql', $config['cache']);
     }
 
+    /**
+     * Magento 2.4.9 picks the connection charset from the server version when initStatements is absent,
+     * and its setup:upgrade strips 'SET NAMES utf8;' as deprecated, so the template renders none (CTAP-2851).
+     */
+    public function testNoInitStatementsAreRendered(): void
+    {
+        $config = $this->render([]);
+
+        $this->assertArrayNotHasKey('initStatements', $config['db']['connection']['default']);
+    }
+
     private function render(array $templateVars): array
     {
         $template = __DIR__ . '/../files/app/etc/env.php.twig';
