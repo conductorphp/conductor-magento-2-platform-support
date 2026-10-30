@@ -89,9 +89,9 @@ what it leaves out and why:
 |---|---|---|
 | `@generated` | `/css`, `/js` and their `_secure` twins | Indexer changelogs (`*_cl`), replicas, temp tables, report aggregates, analytics data |
 | `@cache` | Resized image and placeholder caches | `cache`, `cache_tag` |
-| `@scratch` | `/captcha`, `/tmp` | Logs, debug output, locks, cron history, sessions, visitors, queued messages, bulk operations, import scratch data, admin notifications |
-| `@personal_data` | Customer and address file uploads, custom-option files, `/import` | Customers, addresses, admin users, sessions, orders, carts, invoices, shipments and their sequences, payment records, reviews, wishlists, alerts, newsletter subscribers |
-| `@environment` | Nothing | Credentials (admin password hashes, OAuth and JWT tokens, integrations, vault payment tokens) and sitemap records |
+| `@scratch` | `/captcha`, `/tmp` | Logs, debug output, locks, cron history, sessions, visitors, queued messages, bulk operations, import scratch data, admin notifications, the AvaTax and Signifyd logs and job queues |
+| `@personal_data` | Customer and address file uploads, custom-option files, `/import` | Customers, addresses, admin users, sessions, orders, carts, invoices, shipments and their sequences, payment records and billing agreements, reviews, wishlists, compare lists, alerts, newsletter subscribers, search terms, logs that record a login, email or IP, admin Adobe IMS and 2FA settings, and the order data of Signifyd, Amazon Pay and AvaTax |
+| `@environment` | Nothing | Credentials (admin password hashes, OAuth and JWT tokens, integrations, vault payment tokens, admin Adobe IMS tokens and 2FA secrets, the PayPal API certificate), sitemap records, pending Amazon Pay charges, and AvaTax jobs, which carry the account number |
 
 A table can be of several natures, so it can sit in several groups: an admin user is personal data
 and a credential, a session is short-lived and personal. Each group is complete for its nature, and a

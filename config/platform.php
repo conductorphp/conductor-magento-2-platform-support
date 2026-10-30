@@ -112,7 +112,8 @@ return [
                 'cache_tag',
             ],
             // Short-lived: logs, debug output, locks, cron history, sessions, visitor tracking, queued
-            // messages and bulk operations, import scratch data, admin notifications
+            // messages and bulk operations, import scratch data, admin notifications, and the AvaTax and
+            // Signifyd logs and job queues
             'scratch' => [
                 '*_debug',
                 '*_log',
@@ -133,10 +134,16 @@ return [
                 'magento_bulk',
                 'magento_operation',
                 'magento_acknowledged_bulk',
+                'baseprovider_logs',
+                'baseprovider_queue_job',
+                'signifyd_connect_logs',
             ],
-            // Relates to a person: customers and their addresses, admin users, sessions, orders, carts,
-            // invoices, shipments and their sequences, payment records, reviews and ratings, wishlists,
-            // compare lists, alerts, newsletter subscribers, viewed products
+            // Relates to a person: customers and their addresses, admin users and their Adobe IMS and 2FA
+            // settings, sessions, orders, carts, invoices, shipments and their sequences, payment records
+            // and billing agreements, reviews and ratings, wishlists, compare lists, alerts, newsletter
+            // subscribers, viewed products, search terms (shoppers type emails into search), logs that
+            // record a login, email or IP, and the order exports. Also the order data of Signifyd (whole
+            // order payloads), Amazon Pay and AvaTax (tax requests carry the addresses and customer code).
             'personal_data' => [
                 'catalog_compare_item',
                 'customer_address_entity',
@@ -223,9 +230,42 @@ return [
                 'sequence_order_*',
                 'sequence_rma_item_*',
                 'sequence_shipment_*',
+                'search_query',
+                'catalog_compare_list',
+                'catalog_product_frontend_action',
+                'paypal_billing_agreement',
+                'paypal_billing_agreement_order',
+                'sales_order_confirm_cancel',
+                'sales_order_status_change_history',
+                'sales_data_exporter_orders',
+                'inventory_order_notification',
+                'inventory_pickup_location_order',
+                'inventory_pickup_location_quote_address',
+                'password_reset_request_event',
+                'magento_login_as_customer_log',
+                'captcha_log',
+                'oauth_token_request_log',
+                'sendfriend_log',
+                'admin_user_expiration',
+                'admin_adobe_ims_webapi',
+                'adobe_user_profile',
+                'tfa_user_config',
+                'signifyd_connect_*',
+                'amazon_customer',
+                'amazon_payv2_async',
+                'avatax_log',
+                'avatax_einvoice_log',
+                'avatax_quote_item',
+                'avatax_sales_*',
+                'avatax_customer_entity_use_code_errors',
+                'baseprovider_logs',
+                'baseprovider_queue_job',
             ],
             // Belongs to the source environment: credentials (admin password hashes, OAuth and JWT
-            // tokens, integrations, vault payment tokens) and sitemap records, whose paths are per host
+            // tokens, integrations, vault payment tokens, admin Adobe IMS tokens and 2FA secrets, the
+            // PayPal API certificate), sitemap records, whose paths are per host, Amazon Pay charges
+            // still pending against the source merchant account, and AvaTax jobs, whose payloads carry
+            // the source AvaTax account number
             'environment' => [
                 'admin_user',
                 'admin_passwords',
@@ -235,6 +275,12 @@ return [
                 'vault_payment_token',
                 'jwt_auth_revoked',
                 'sitemap',
+                'admin_adobe_ims_webapi',
+                'adobe_user_profile',
+                'tfa_user_config',
+                'paypal_cert',
+                'amazon_payv2_async',
+                'baseprovider_queue_job',
             ],
 
             // Deprecated (CTAP-2161): see deprecated_database_table_groups. They expand exactly as

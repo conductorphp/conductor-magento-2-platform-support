@@ -340,6 +340,51 @@ class DatabaseTableGroupsTest extends TestCase
         $this->assertNotContains('customer_entity', $tables);
     }
 
+    /**
+     * CTAP-3037. Tables a consumer's scrubbed dumps carried PII or source credentials in, matched the
+     * way the export applies the patterns: fnmatch against the real table names.
+     */
+    public function testNatureGroupsExcludeTheModuleAndCoreTablesThatLeakedPii(): void
+    {
+        $matches = fn(string $group, string $table): bool => (bool) array_filter(
+            $this->snapshotConfig->expandDatabaseTableGroups(["@$group"]),
+            static fn(string $pattern): bool => fnmatch($pattern, $table)
+        );
+
+        foreach ([
+            'signifyd_connect_case',
+            'signifyd_connect_fulfillment',
+            'signifyd_connect_logs',
+            'signifyd_connect_reroute',
+            'search_query',
+            'amazon_customer',
+            'amazon_payv2_async',
+            'avatax_log',
+            'avatax_sales_order',
+            'avatax_sales_invoice_item',
+            'baseprovider_logs',
+            'baseprovider_queue_job',
+            'paypal_billing_agreement',
+            'password_reset_request_event',
+            'magento_login_as_customer_log',
+            'tfa_user_config',
+            'adobe_user_profile',
+        ] as $table) {
+            $this->assertTrue($matches('personal_data', $table), "@personal_data should exclude $table.");
+        }
+        foreach (['baseprovider_queue_job', 'amazon_payv2_async', 'paypal_cert', 'tfa_user_config'] as $table) {
+            $this->assertTrue($matches('environment', $table), "@environment should exclude $table.");
+        }
+        foreach (['signifyd_connect_logs', 'baseprovider_logs', 'baseprovider_queue_job'] as $table) {
+            $this->assertTrue($matches('scratch', $table), "@scratch should exclude $table.");
+        }
+
+        // Configuration the store needs: AvaTax tax codes and cross-border classes, search synonyms
+        foreach (['avatax_tax_code_sync', 'avatax_cross_border_class', 'search_synonyms'] as $table) {
+            $this->assertFalse($matches('personal_data', $table), "@personal_data should keep $table.");
+        }
+    }
+
     public function testPrivateDataGroups(): void
     {
         $this->assertContains('admin_user', $this->snapshotConfig->expandDatabaseTableGroups(['@admin']));

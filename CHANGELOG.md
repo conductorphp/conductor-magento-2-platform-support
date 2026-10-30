@@ -1,3 +1,10 @@
+[5.1.2](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/5.1.1...5.1.2) (2026-10-30)
+
+### Bug Fixes
+* nature groups exclude Signifyd, Amazon Pay, AvaTax and core tables that carry PII (CTAP-3037) ([11c264c](https://github.com/conductorphp/conductor-magento-2-platform-support/commit/11c264ca7502f732a67c6c5b06c8059fa162192e))
+
+<!--- CHANGELOG SPLIT MARKER -->
+
 [5.1.1](https://github.com/conductorphp/conductor-magento-2-platform-support/compare/5.1.0...5.1.1) (2026-10-22)
 
 ### Bug Fixes
