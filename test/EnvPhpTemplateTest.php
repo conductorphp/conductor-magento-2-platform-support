@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ConductorMagento2PlatformSupportTest;
 
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment as TwigEnvironment;
 use Twig\Loader\ArrayLoader as TwigArrayLoader;
@@ -111,6 +112,50 @@ class EnvPhpTemplateTest extends TestCase
         $config = $this->render([]);
 
         $this->assertArrayNotHasKey('initStatements', $config['db']['connection']['default']);
+    }
+
+    private const REDIS_CACHE_VARS = [
+        'redis_object_host' => 'redis',
+        'redis_object_port' => 6379,
+        'redis_fpc_host' => 'redis',
+        'redis_fpc_port' => 6379,
+    ];
+
+    /**
+     * Magento 2.4.7 and 2.4.8 resolve the backend as a Zend backend class; a bare 'redis' there
+     * becomes a file cache (CTAP-3079).
+     */
+    #[RunInSeparateProcess]
+    public function testRedisCacheBackendIsTheCmClassBeforeMagento249(): void
+    {
+        $config = $this->render(self::REDIS_CACHE_VARS);
+
+        $this->assertSame('Cm_Cache_Backend_Redis', $config['cache']['frontend']['default']['backend']);
+        $this->assertSame('Cm_Cache_Backend_Redis', $config['cache']['frontend']['page_cache']['backend']);
+    }
+
+    /**
+     * Magento 2.4.9's SymfonyAdapterProvider maps only 'redis' / 'valkey' to Redis and silently turns
+     * Cm_Cache_Backend_Redis into a filesystem cache (CTAP-3079).
+     */
+    #[RunInSeparateProcess]
+    public function testRedisCacheBackendIsRedisOnMagento249(): void
+    {
+        eval('namespace Magento\\Framework\\Cache\\Frontend\\Adapter; class SymfonyAdapterProvider {}');
+
+        $config = $this->render(self::REDIS_CACHE_VARS);
+
+        $this->assertSame('redis', $config['cache']['frontend']['default']['backend']);
+        $this->assertSame('redis', $config['cache']['frontend']['page_cache']['backend']);
+    }
+
+    #[RunInSeparateProcess]
+    public function testRedisCacheBackendVarOverridesTheDetectedValue(): void
+    {
+        $config = $this->render(self::REDIS_CACHE_VARS + ['redis_cache_backend' => 'valkey']);
+
+        $this->assertSame('valkey', $config['cache']['frontend']['default']['backend']);
+        $this->assertSame('valkey', $config['cache']['frontend']['page_cache']['backend']);
     }
 
     private function render(array $templateVars): array

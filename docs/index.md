@@ -49,7 +49,7 @@ paths set, so a config can always pass the paths of its rendered certificate fil
 `database_ssl`, the earlier behavior holds: driver options are written only when a certificate path
 is set. Likewise, without `amqp_ssl_verify` the AMQP `ssl_options` are written as before.
 
-**Redis has no per-connection CA.** `Cm_Cache_Backend_Redis` and the session handler pass the host
+**Redis has no per-connection CA.** The Redis cache backend and the session handler pass the host
 to Credis but expose no TLS context options, so a `tls://` connection verifies against PHP's default
 trust store (`openssl.cafile`, or the system bundle). A private CA must be installed in the image's
 trust store. Managed services with public certificates, such as ElastiCache, need nothing.
@@ -57,6 +57,18 @@ trust store. Managed services with public certificates, such as ElastiCache, nee
 Certificate files are usually rendered by the project's conductor config from base64 environment
 variables (`${DATABASE_TLS_CA|b64decode:-}`), the way JWT keys are; an unset variable renders an
 empty file, which these variables read as "none".
+
+## Redis cache backend (CTAP-3079)
+
+The `default` and `page_cache` frontends get their `backend` from the installed Magento. Magento
+2.4.9 builds its caches through Symfony and maps only `redis` and `valkey` to Redis: any other
+value, `Cm_Cache_Backend_Redis` included, silently becomes a filesystem cache under `var/cache`.
+Magento 2.4.7 and 2.4.8 take a Zend backend class, and turn a bare `redis` into a file cache. So
+`env.php` carries an expression, `'redis'` when
+`Magento\Framework\Cache\Frontend\Adapter\SymfonyAdapterProvider` exists and
+`'Cm_Cache_Backend_Redis'` otherwise.
+
+Set `redis_cache_backend` to render a fixed value instead (for example `valkey`).
 
 ## GraphQL cache salt (CTAP-2733)
 
